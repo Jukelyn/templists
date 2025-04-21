@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Checklists App",
-  description: "A simple checklists app by Jukelyn.",
+  title: "Templists App",
+  description: "A temporary checklists app by Jukelyn.",
 };
 
 export default function RootLayout({
