@@ -18,7 +18,7 @@ export default function ChecklistApp() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-black p-6">
-      <TemplistCard items={items} setItems={setItems} />
+      <TemplistCard templistId={1} items={items} setItems={setItems} />
     </div>
   );
 }

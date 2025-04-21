@@ -5,18 +5,20 @@ import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-interface ChecklistItem {
+interface TemplistItem {
   id: string;
   text: string;
   completed: boolean;
 }
 
-interface ChecklistCardProps {
-  items: ChecklistItem[];
-  setItems: (items: ChecklistItem[]) => void;
+interface TemplistCardProps {
+  templistId: number;
+  items: TemplistItem[];
+  setItems: (items: TemplistItem[]) => void;
 }
 
-export const TemplistCard: React.FC<ChecklistCardProps> = ({
+export const TemplistCard: React.FC<TemplistCardProps> = ({
+  templistId,
   items,
   setItems,
 }) => {
@@ -27,7 +29,7 @@ export const TemplistCard: React.FC<ChecklistCardProps> = ({
   const addItem = () => {
     if (newItemText.trim() === "") return;
 
-    const newItem: ChecklistItem = {
+    const newItem: TemplistItem = {
       id: Date.now().toString(),
       text: newItemText,
       completed: false,
@@ -49,7 +51,7 @@ export const TemplistCard: React.FC<ChecklistCardProps> = ({
     );
   };
 
-  const startEditing = (item: ChecklistItem) => {
+  const startEditing = (item: TemplistItem) => {
     setEditingId(item.id);
     setEditText(item.text);
   };
@@ -74,7 +76,7 @@ export const TemplistCard: React.FC<ChecklistCardProps> = ({
     <Card className="max-w-md mx-auto">
       <CardHeader>
         <CardTitle className="text-2xl font-bold text-center">
-          The Templist
+          The Templist {templistId > 1 ? `(${templistId})` : ""}
         </CardTitle>
       </CardHeader>
       <CardContent>
