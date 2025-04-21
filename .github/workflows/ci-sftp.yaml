@@ -4,13 +4,6 @@ name: CI-SFTP
 on:
   push:
     branches: [main]
-    paths:
-      - "api/**"
-      - "app/**"
-      - "components/**"
-      - "lib/**"
-      - "public/**"
-      - "docker-compose.yaml"
 
   workflow_dispatch:
 
