@@ -22,7 +22,7 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > /tmp/private_key.pem
           chmod 600 /tmp/private_key.pem
 
-      - name: Restart Docker container
+      - name: Restart Docker Container
         run: |
           ssh -i /tmp/private_key.pem \
             -o StrictHostKeyChecking=no \
