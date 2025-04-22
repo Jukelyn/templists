@@ -46,8 +46,8 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
   const toggleComplete = (id: string) => {
     setItems(
       items.map((item) =>
-        item.itemId === id ? { ...item, completed: !item.completed } : item
-      )
+        item.itemId === id ? { ...item, completed: !item.completed } : item,
+      ),
     );
   };
 
@@ -61,8 +61,8 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
 
     setItems(
       items.map((item) =>
-        item.itemId === editingId ? { ...item, text: editText } : item
-      )
+        item.itemId === editingId ? { ...item, text: editText } : item,
+      ),
     );
 
     setEditingId(null);
@@ -73,14 +73,14 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
   };
 
   return (
-    <Card className="max-w-md mx-auto mt-4">
+    <Card className="mx-auto mt-4 max-w-md">
       <CardHeader>
-        <CardTitle className="text-2xl font-bold text-center">
+        <CardTitle className="text-center text-2xl font-bold">
           The Templist {templistId > 1 ? `(${templistId})` : ""}
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="flex space-x-2 mb-6">
+        <div className="mb-6 flex space-x-2">
           <Input
             placeholder="Add new item..."
             value={newItemText}
@@ -89,24 +89,24 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
             className="flex-1"
           />
           <Button onClick={addItem}>
-            <Plus className="h-4 w-4 mr-1" />
+            <Plus className="mr-1 h-4 w-4" />
             Add
           </Button>
         </div>
 
         <div className="space-y-3">
           {items.length === 0 ? (
-            <p className="text-center text-muted-foreground py-4">
+            <p className="text-muted-foreground py-4 text-center">
               Your templist is empty. Add some items!
             </p>
           ) : (
             items.map((item) => (
               <div
                 key={item.itemId}
-                className="flex items-center p-3 border rounded-md bg-black shadow-sm"
+                className="flex items-center rounded-md border bg-black p-3 shadow-sm"
               >
                 {editingId === item.itemId ? (
-                  <div className="flex items-center w-full space-x-2">
+                  <div className="flex w-full items-center space-x-2">
                     <Input
                       value={editText}
                       onChange={(e) => setEditText(e.target.value)}
@@ -123,7 +123,7 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
                   </div>
                 ) : (
                   <>
-                    <div className="flex items-center flex-1">
+                    <div className="flex flex-1 items-center">
                       <Checkbox
                         checked={item.completed}
                         onCheckedChange={() => toggleComplete(item.itemId)}
@@ -132,7 +132,7 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
                       <span
                         className={`flex-1 ${
                           item.completed
-                            ? "line-through text-muted-foreground"
+                            ? "text-muted-foreground line-through"
                             : ""
                         }`}
                       >
