@@ -4,9 +4,8 @@ Templists are just temporary checklists. I find myself need a checklist but I do
 
 ## TODO
 
-- [ ] Timestamps?
-- [ ] Optional data persistence
-- [ ] History of templists
-- [ ] Sync data across browsers/platforms
-- [ ] Allow multiple checklists
-- [ ] Search for checklist by name
+<div align="center">
+
+![Todo image](https://github.com/Jukelyn/templists/blob/main/todo.png)
+
+</div>
