@@ -115,7 +115,14 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
     <Card className="mx-auto mt-4 max-w-md">
       <CardHeader>
         <CardTitle className="text-center text-2xl font-bold">
-          The Templist {templistId > 1 ? `(${templistId})` : ""}
+          <div className="flex items-center justify-between">
+            <div className="text-center">
+              The Templist {templistId > 1 ? `(${templistId})` : ""}
+            </div>
+            <Button variant="ghost" size="icon">
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
         </CardTitle>
       </CardHeader>
       <CardContent>
