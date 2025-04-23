@@ -1,0 +1,18 @@
+{
+  "templists": [
+    {
+      "templistId": 1,
+      "items": [
+        {
+          "itemId": "1",
+          "text": "Task 1",
+          "completed": false
+        }
+      ]
+    },
+    {
+      "templistId": 2,
+      "items": []
+    }
+  ]
+}
