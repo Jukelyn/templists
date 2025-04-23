@@ -4,15 +4,31 @@
       "templistId": 1,
       "items": [
         {
-          "itemId": "1",
+          "itemId": "0",
           "text": "Task 1",
+          "completed": false
+        },
+        {
+          "itemId": "1",
+          "text": "Task 2",
+          "completed": false
+        },
+        {
+          "itemId": "2",
+          "text": "Task 3",
           "completed": false
         }
       ]
     },
     {
       "templistId": 2,
-      "items": []
+      "items": [
+        {
+          "itemId": "0",
+          "text": "Task 1",
+          "completed": false
+        }
+      ]
     }
   ]
 }
