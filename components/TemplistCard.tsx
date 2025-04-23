@@ -1,30 +1,30 @@
-import { useState } from "react";
-import { Plus, Trash2, Pencil, Check, X } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { Save, Plus, Trash2, Pencil, Check, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
-export interface TemplistItem {
-  itemId: string;
-  text: string;
-  completed: boolean;
-}
+import { TemplistItem } from "@/types/templist";
 
 interface TemplistCardProps {
   templistId: number;
   items: TemplistItem[];
-  setItems: (items: TemplistItem[]) => void;
+  onSave: (updatedItems: TemplistItem[]) => void;
 }
 
 export const TemplistCard: React.FC<TemplistCardProps> = ({
   templistId,
-  items,
-  setItems,
+  items: initialItems,
+  onSave,
 }) => {
+  const [localItems, setLocalItems] = useState<TemplistItem[]>(initialItems);
   const [newItemText, setNewItemText] = useState("");
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editText, setEditText] = useState("");
+
+  useEffect(() => {
+    setLocalItems(initialItems);
+  }, [initialItems]);
 
   const addItem = () => {
     if (newItemText.trim() === "") return;
@@ -34,18 +34,19 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
       text: newItemText,
       completed: false,
     };
-
-    setItems([...items, newItem]);
+    setLocalItems((prevItems) => [...prevItems, newItem]);
     setNewItemText("");
   };
 
   const deleteItem = (id: string) => {
-    setItems(items.filter((item) => item.itemId !== id));
+    setLocalItems((prevItems) =>
+      prevItems.filter((item) => item.itemId !== id),
+    );
   };
 
   const toggleComplete = (id: string) => {
-    setItems(
-      items.map((item) =>
+    setLocalItems((prevItems) =>
+      prevItems.map((item) =>
         item.itemId === id ? { ...item, completed: !item.completed } : item,
       ),
     );
@@ -57,19 +58,25 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
   };
 
   const saveEdit = () => {
-    if (editText.trim() === "") return;
-
-    setItems(
-      items.map((item) =>
+    if (!editingId || editText.trim() === "") return;
+    setLocalItems((prevItems) =>
+      prevItems.map((item) =>
         item.itemId === editingId ? { ...item, text: editText } : item,
       ),
     );
-
     setEditingId(null);
   };
 
   const cancelEdit = () => {
     setEditingId(null);
+    // Optional: Reset editText if needed, or just rely on startEditing setting it next time
+  };
+
+  // --- Save Button Handler ---
+  const handleSave = () => {
+    // Call the onSave prop passed from the parent,
+    // giving it the current state of items in this card.
+    onSave(localItems);
   };
 
   return (
@@ -95,17 +102,18 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
         </div>
 
         <div className="space-y-3">
-          {items.length === 0 ? (
+          {localItems.length === 0 ? (
             <p className="text-muted-foreground py-4 text-center">
               Your templist is empty. Add some items!
             </p>
           ) : (
-            items.map((item) => (
+            localItems.map((item) => (
               <div
                 key={item.itemId}
                 className="flex items-center rounded-md border bg-black p-3 shadow-sm"
               >
                 {editingId === item.itemId ? (
+                  // --- Editing View ---
                   <div className="flex w-full items-center space-x-2">
                     <Input
                       value={editText}
@@ -122,6 +130,7 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
                     </Button>
                   </div>
                 ) : (
+                  // --- Standard View ---
                   <>
                     <div className="flex flex-1 items-center">
                       <Checkbox
@@ -161,6 +170,10 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
             ))
           )}
         </div>
+        <Button onClick={handleSave} className="float-right mt-4 p-2">
+          <Save className="h-4 w-4" />
+          Save this Templist
+        </Button>
       </CardContent>
     </Card>
   );
