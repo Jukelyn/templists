@@ -5,42 +5,13 @@ import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { TemplistItem } from "@/types/templist";
-import data from "@/data/templists.json";
 import { toast } from "sonner";
+import { getItemId } from "@/lib/helpers";
 interface TemplistCardProps {
   templistId: number;
   items: TemplistItem[];
   onSave: (updatedItems: TemplistItem[]) => void;
 }
-
-const getItemId = (
-  templistId: number,
-  initialItems: TemplistItem[],
-): string => {
-  const currentSavedMaxItemId = getLastItemIdForTemplist(templistId);
-
-  if (initialItems && initialItems.length > 0) {
-    const initialMaxItemId = Math.max(
-      ...initialItems.map((t) => parseInt(t.itemId, 10) + 1),
-    );
-
-    return Math.max(currentSavedMaxItemId, initialMaxItemId).toString();
-  }
-
-  return currentSavedMaxItemId.toString();
-};
-
-const getLastItemIdForTemplist = (templistId: number): number => {
-  const templist = data.templists.find(
-    (list) => list.templistId === templistId,
-  );
-
-  if (!templist || !templist.items || templist.items.length === 0) {
-    return 0;
-  }
-
-  return Math.max(...templist.items.map((t) => parseInt(t.itemId, 10) + 1));
-};
 
 export const TemplistCard: React.FC<TemplistCardProps> = ({
   templistId,
