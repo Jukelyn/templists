@@ -5,7 +5,8 @@ import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { TemplistItem } from "@/types/templist";
-
+import data from "@/data/templists.json";
+import { toast } from "sonner";
 interface TemplistCardProps {
   templistId: number;
   items: TemplistItem[];
@@ -58,13 +59,15 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
   const addItem = () => {
     if (newItemText.trim() === "") return;
 
+    if (newItemText.trim() === "") return;
+
     const newItem: TemplistItem = {
-      itemId: Date.now().toString(),
+      itemId: getItemId(templistId, localItems),
       text: newItemText,
       completed: false,
     };
     setLocalItems((prevItems) => [...prevItems, newItem]);
-    setNewItemText("");
+    toast.success(`Item added to templist ${templistId}.`);
   };
 
   const deleteItem = (id: string) => {
