@@ -31,12 +31,15 @@ export default function ChecklistApp() {
           <SidebarTrigger />
         </div>
         <div className="flex flex-col items-center pt-6">
+          {/* tf somebody gonna search for where there is nothing??? */}
           {templistCards.length > 0 && (
-            <div className="w-full max-w-md">
-              <SearchBar />
-            </div>
+            <>
+              <div className="w-full max-w-md">
+                <SearchBar />
+              </div>
+              <CommandMenu />
+            </>
           )}
-          {templistCards.length > 0 && <CommandMenu />}
           {templistCards.map((card) => (
             <TemplistCard
               key={card.templistId}
