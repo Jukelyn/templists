@@ -6,14 +6,9 @@ import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Templist, TemplistItem } from "@/types/templist";
 import { toast } from "sonner";
+import { ActionTypes } from "@/types/actions";
 
-type Action =
-  | { type: "SET_INITIAL_STATE"; templists: Templist[] }
-  | { type: "UPDATE_ITEMS"; templistId: number; newItems: TemplistItem[] }
-  | { type: "ADD_TEMPLIST"; newTemplist: Templist }
-  | { type: "REMOVE_TEMPLIST"; templistId: number };
-
-function reducer(state: Templist[], action: Action): Templist[] {
+function reducer(state: Templist[], action: ActionTypes): Templist[] {
   switch (action.type) {
     case "SET_INITIAL_STATE":
       return [...action.templists].sort((a, b) => a.templistId - b.templistId);
