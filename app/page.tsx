@@ -22,24 +22,28 @@ export default function ChecklistApp() {
   }, [initializeTemplists]);
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6 dark:bg-black">
-      <div className="pt-6">
-        {templistCards.map((card) => (
-          <TemplistCard
-            key={card.templistId}
-            templistId={card.templistId}
-            items={card.items}
-            onSave={(updatedItems) => handleSave(card.templistId, updatedItems)}
-            onDelete={() => handleDelete(card.templistId)}
-          />
-        ))}
+    <>
+      <div className="min-h-screen bg-gray-50 p-6 dark:bg-black">
+        <div className="pt-6">
+          {templistCards.map((card) => (
+            <TemplistCard
+              key={card.templistId}
+              templistId={card.templistId}
+              items={card.items}
+              onSave={(updatedItems) =>
+                handleSave(card.templistId, updatedItems)
+              }
+              onDelete={() => handleDelete(card.templistId)}
+            />
+          ))}
+        </div>
+        <div className="flex justify-center gap-4 pt-4">
+          <Button onClick={handleAddTemplist}>
+            <Plus className="mr-1 h-4 w-4" />
+            Add New Templist
+          </Button>
+        </div>
       </div>
-      <div className="flex justify-center gap-4 pt-4">
-        <Button onClick={handleAddTemplist}>
-          <Plus className="mr-1 h-4 w-4" />
-          Add New Templist
-        </Button>
-      </div>
-    </div>
+    </>
   );
 }
