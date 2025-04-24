@@ -130,6 +130,7 @@ export default function ChecklistApp() {
     };
     // Dispatch action to add locally. Saving happens when its button is clicked.
     dispatch({ type: "ADD_TEMPLIST", newTemplist });
+    toast.success("Templist added.")
   };
 
   return (
