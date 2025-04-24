@@ -34,7 +34,7 @@ export default function RootLayout({
           <div className="flex min-h-screen w-full flex-row-reverse">
             <AppSidebar side="right" />
             <div className="relative flex-1">
-              <SidebarTrigger className="absolute top-4 right-4 z-50" />
+              <SidebarTrigger />
               {children}
             </div>
           </div>
