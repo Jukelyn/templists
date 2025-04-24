@@ -31,9 +31,11 @@ export default function ChecklistApp() {
           <SidebarTrigger />
         </div>
         <div className="flex flex-col items-center pt-6">
-          <div className="w-full max-w-md">
-            <SearchBar />
-          </div>
+          {templistCards.length > 0 && (
+            <div className="w-full max-w-md">
+              <SearchBar />
+            </div>
+          )}
           <CommandMenu />
           {templistCards.map((card) => (
             <TemplistCard
