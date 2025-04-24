@@ -8,7 +8,7 @@ import { Templist, TemplistItem } from "@/types/templist";
 import { toast } from "sonner";
 
 type Action =
-  | { type: "SET_INITIAL_STATE"; payload: Templist[] } // Action to load data
+  | { type: "SET_INITIAL_STATE"; payload: Templist[] }
   | { type: "UPDATE_ITEMS"; templistId: number; newItems: TemplistItem[] }
   | { type: "ADD_TEMPLIST"; newTemplist: Templist };
 
@@ -31,8 +31,7 @@ function reducer(state: Templist[], action: Action): Templist[] {
       }
       return [...state, action.newTemplist];
     default:
-      // Should not happen with TypeScript, but good practice
-      return state;
+      throw Error("Unknown action.");
   }
 }
 
@@ -49,52 +48,70 @@ export default function ChecklistApp() {
   const nextId = useRef(0);
 
   useEffect(() => {
-    // Only load initial data once
-    if (
-      !isDataLoaded.current &&
-      initialData &&
-      Array.isArray(initialData.templists)
-    ) {
-      dispatch({ type: "SET_INITIAL_STATE", payload: initialData.templists });
-      // Set the nextId based on the loaded data
-      nextId.current = getLastTemplistId(initialData.templists);
-      isDataLoaded.current = true; // Mark data as loaded
-    } else if (!isDataLoaded.current) {
-      console.error(
-        "Failed to load initial templists data or data format is incorrect.",
-      );
+    if (!isDataLoaded.current) {
+      try {
+        const storedData = localStorage.getItem("Templists");
+        const initialData = storedData
+          ? (JSON.parse(storedData) as { templists: Templist[] })
+          : { templists: [] };
 
-      nextId.current = 0; // Initialize nextId even if loading fails
-      isDataLoaded.current = true;
+        if (initialData && Array.isArray(initialData.templists)) {
+          dispatch({
+            type: "SET_INITIAL_STATE",
+            payload: initialData.templists,
+          });
+
+          nextId.current = getLastTemplistId(initialData.templists);
+          isDataLoaded.current = true;
+        } else {
+          console.error(
+            "Failed to load initial templists data or data format is incorrect.",
+          );
+
+          nextId.current = 0;
+          isDataLoaded.current = true;
+        }
+      } catch (error) {
+        console.error("Error parsing localStorage data:", error);
+        nextId.current = 0;
+        isDataLoaded.current = true;
+      }
     }
   }, []);
 
   const handleSave = useCallback(
     async (templistId: number, updatedItems: TemplistItem[]) => {
-      const nextState = reducer(templistCards, {
-        type: "UPDATE_ITEMS",
-        templistId: templistId,
-        newItems: updatedItems,
-      });
-
-      const dataToSave = { templists: nextState };
-
       try {
-        const response = await fetch("/api/saveTemplists", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(dataToSave),
-        });
+        const storedData = localStorage.getItem("Templists");
+        const existingData = storedData
+          ? (JSON.parse(storedData) as { templists: Templist[] })
+          : { templists: [] };
 
-        if (!response.ok) {
-          const errorResult = await response.json();
-          throw new Error(
-            errorResult.message ||
-              `Failed to save templists (${response.status})`,
+        // Check if the templist already exists
+        const templistExists = existingData.templists.some(
+          (t) => t.templistId === templistId,
+        );
+
+        let updatedTemplists;
+
+        if (templistExists) {
+          // Update existing templist
+          updatedTemplists = existingData.templists.map((t) =>
+            t.templistId === templistId ? { ...t, items: updatedItems } : t,
           );
+        } else {
+          // Add new templist
+          const newTemplist: Templist = {
+            templistId: templistId,
+            items: updatedItems,
+          };
+          updatedTemplists = [...existingData.templists, newTemplist];
         }
+
+        localStorage.setItem(
+          "Templists",
+          JSON.stringify({ templists: updatedTemplists }),
+        );
 
         dispatch({
           type: "UPDATE_ITEMS",
