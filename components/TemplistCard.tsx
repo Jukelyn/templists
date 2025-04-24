@@ -1,16 +1,20 @@
-import React, { useState, useEffect } from "react";
-import { Save, Plus, Trash2, Pencil, Check, X } from "lucide-react";
+import React from "react";
+import { Save, Plus, Trash2, Pencil, Check, X, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { TemplistItem } from "@/types/templist";
-import { toast } from "sonner";
-import { getItemId } from "@/lib/helpers";
+
+import { useTaskList } from "@/hooks/useTaskList";
+import { useAddItem } from "@/hooks/useAddItem";
+import { useEditItemState } from "@/hooks/useEditItemState";
+import formatTimestamp from "@/lib/utils/dateUtils";
 interface TemplistCardProps {
   templistId: number;
   items: TemplistItem[];
   onSave: (updatedItems: TemplistItem[]) => void;
+  onClose?: (templistId: number) => void;
 }
 
 export const TemplistCard: React.FC<TemplistCardProps> = ({
@@ -102,10 +106,10 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
             placeholder="Add new item..."
             value={newItemText}
             onChange={(e) => setNewItemText(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && addItem()}
+            onKeyDown={(e) => e.key === "Enter" && submitNewItem()} // Use submitNewItem
             className="flex-1"
           />
-          <Button onClick={addItem}>
+          <Button onClick={submitNewItem}>
             <Plus className="mr-1 h-4 w-4" />
             Add
           </Button>
@@ -169,7 +173,7 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
                       <Button
                         size="icon"
                         variant="ghost"
-                        onClick={() => deleteItem(item.itemId)}
+                        onClick={() => deleteItemFromList(item.itemId)}
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>
