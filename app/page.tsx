@@ -5,7 +5,6 @@ import { TemplistCard } from "@/components/TemplistCard";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Templist, TemplistItem } from "@/types/templist";
-import initialData from "@/data/templists.json";
 import { toast } from "sonner";
 
 type Action =
@@ -13,11 +12,10 @@ type Action =
   | { type: "UPDATE_ITEMS"; templistId: number; newItems: TemplistItem[] }
   | { type: "ADD_TEMPLIST"; newTemplist: Templist };
 
-// --- Reducer ---
 function reducer(state: Templist[], action: Action): Templist[] {
   switch (action.type) {
     case "SET_INITIAL_STATE":
-      return action.payload; // Load the initial data
+      return action.payload;
     case "UPDATE_ITEMS":
       return state.map((t) =>
         t.templistId === action.templistId
@@ -25,7 +23,6 @@ function reducer(state: Templist[], action: Action): Templist[] {
           : t,
       );
     case "ADD_TEMPLIST":
-      // Ensure the new templist doesn't already exist (optional safety check)
       if (state.some((t) => t.templistId === action.newTemplist.templistId)) {
         console.warn(
           `Templist with ID ${action.newTemplist.templistId} already exists.`,
@@ -39,7 +36,6 @@ function reducer(state: Templist[], action: Action): Templist[] {
   }
 }
 
-// --- Helper to get the last ID from a list ---
 const getLastTemplistId = (templists: Templist[]): number => {
   if (!templists || templists.length === 0) {
     return 0;
@@ -50,11 +46,8 @@ const getLastTemplistId = (templists: Templist[]): number => {
 export default function ChecklistApp() {
   const [templistCards, dispatch] = useReducer(reducer, []);
   const isDataLoaded = useRef(false);
-
-  // Ref for the next ID, initialize based on loaded data later
   const nextId = useRef(0);
 
-  // --- Load Initial Data Effect ---
   useEffect(() => {
     // Only load initial data once
     if (
@@ -74,9 +67,8 @@ export default function ChecklistApp() {
       nextId.current = 0; // Initialize nextId even if loading fails
       isDataLoaded.current = true;
     }
-  }, []); // Empty dependency array ensures this runs only once on mount
+  }, []);
 
-  // Use useCallback to prevent recreating the function on every render
   const handleSave = useCallback(
     async (templistId: number, updatedItems: TemplistItem[]) => {
       const nextState = reducer(templistCards, {
@@ -109,28 +101,22 @@ export default function ChecklistApp() {
           templistId: templistId,
           newItems: updatedItems,
         });
+
         toast.success(`Templist ${templistId} successfully saved!`);
-        console.log(
-          `Templist ${templistId} successfully saved!`,
-        );
       } catch (error) {
-        console.error("Error saving templists:", error);
+        toast.error(`Error saving templists: ${error}`);
       }
     },
-    [templistCards],
-  ); // Dependency: re-create if templistCards state changes
+    [dispatch],
+  );
 
-  // --- Add New Templist Function ---
   const handleAddTemplist = () => {
-    // Increment the ID using the ref
     const newId = ++nextId.current;
     const newTemplist: Templist = {
       templistId: newId,
       items: [],
     };
-    // Dispatch action to add locally. Saving happens when its button is clicked.
     dispatch({ type: "ADD_TEMPLIST", newTemplist });
-    toast.success("Templist added.")
   };
 
   return (
@@ -141,7 +127,6 @@ export default function ChecklistApp() {
             key={card.templistId}
             templistId={card.templistId}
             items={card.items}
-            // Pass the centralized save handler and templistId
             onSave={(updatedItems) => handleSave(card.templistId, updatedItems)}
           />
         ))}
