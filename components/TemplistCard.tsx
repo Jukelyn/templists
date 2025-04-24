@@ -1,15 +1,17 @@
-import React from "react";
-import { Save, Plus, Trash2, Pencil, Check, X, Clock } from "lucide-react";
+import { Save, Plus, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { TemplistItem } from "@/types/templist";
+import ConditionalTimestamp from "@/components/ConditionalTimestamp";
+import TemplistItemMap from "@/components/ItemMap";
 
 import { useTaskList } from "@/hooks/useTaskList";
 import { useAddItem } from "@/hooks/useAddItem";
 import { useEditItemState } from "@/hooks/useEditItemState";
 import formatTimestamp from "@/lib/utils/dateUtils";
+
+import { TemplistItem } from "@/types/templist";
+
 interface TemplistCardProps {
   templistId: number;
   items: TemplistItem[];
@@ -97,71 +99,23 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
             </p>
           ) : (
             localItems.map((item) => (
-              <div
+              <TemplistItemMap
                 key={item.itemId}
-                className="flex items-center rounded-md border bg-black p-3 shadow-sm"
-              >
-                {isEditing(item.itemId) ? (
-                  <div className="flex w-full items-center space-x-2">
-                    <Input
-                      value={editText}
-                      onChange={(e) => setEditText(e.target.value)}
-                      onKeyDown={(e) => e.key === "Enter" && saveEdit()}
-                      className="flex-1"
-                      autoFocus
-                    />
-                    <Button size="icon" variant="ghost" onClick={saveEdit}>
-                      <Check className="h-4 w-4" />
-                    </Button>
-                    <Button size="icon" variant="ghost" onClick={cancelEdit}>
-                      <X className="h-4 w-4" />
-                    </Button>
-                  </div>
-                ) : (
-                  <>
-                    <div className="flex flex-1 items-center">
-                      <Checkbox
-                        checked={item.completed}
-                        onCheckedChange={() => toggleItemComplete(item.itemId)}
-                        className="mr-3"
-                      />
-                      <span
-                        className={`flex-1 ${item.completed ? "text-muted-foreground line-through" : ""}`}
-                      >
-                        {item.text}
-                      </span>
-                    </div>
-                    <div className="flex space-x-1">
-                      <Button
-                        size="icon"
-                        variant="ghost"
-                        onClick={() => startEditing(item)}
-                      >
-                        <Pencil className="h-4 w-4" />
-                      </Button>
-                      <Button
-                        size="icon"
-                        variant="ghost"
-                        onClick={() => deleteItemFromList(item.itemId)}
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </>
-                )}
-              </div>
+                item={item}
+                isEditing={isEditing}
+                editText={editText}
+                setEditText={setEditText}
+                saveEdit={saveEdit}
+                cancelEdit={cancelEdit}
+                startEditing={startEditing}
+                deleteItemFromList={deleteItemFromList}
+                toggleItemComplete={toggleItemComplete}
+              />
             ))
           )}
         </div>
         <div className="mt-4 flex items-center justify-between p-2">
-          {displayTimestamp ? (
-            <div className="text-muted-foreground flex items-center gap-2 text-sm">
-              <Clock className="h-4 w-4" />
-              {`Last change: ${displayTimestamp}`}
-            </div>
-          ) : (
-            <div></div>
-          )}
+          <ConditionalTimestamp timestamp={displayTimestamp} />
           <Button onClick={handleSave}>
             <Save className="h-4 w-4" />
             Save this Templist
