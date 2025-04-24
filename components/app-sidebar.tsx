@@ -1,6 +1,6 @@
 "use client";
 
-import type React from "react";
+import React, { createContext, useContext, useState } from "react";
 
 import {
   Sidebar,
@@ -13,7 +13,36 @@ import {
   SidebarMenuButton,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { CheckSquare, Info, Settings, Star } from "lucide-react";
+
+import { CheckSquare, Star } from "lucide-react";
+
+const SidebarContext = createContext<{
+  isSidebarOpen: boolean;
+  toggleSidebar: () => void;
+}>({
+  isSidebarOpen: false,
+  toggleSidebar: () => {},
+});
+
+export const SidebarProvider = ({
+  defaultOpen = false,
+  children,
+}: {
+  defaultOpen?: boolean;
+  children: React.ReactNode;
+}) => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(defaultOpen);
+
+  const toggleSidebar = () => setIsSidebarOpen((prev) => !prev);
+
+  return (
+    <SidebarContext.Provider value={{ isSidebarOpen, toggleSidebar }}>
+      {children}
+    </SidebarContext.Provider>
+  );
+};
+
+export const useSidebar = () => useContext(SidebarContext);
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
