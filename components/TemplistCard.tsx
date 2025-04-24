@@ -64,7 +64,7 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
   const displayTimestamp = formatTimestamp(lastUpdated);
 
   return (
-    <Card className="mx-auto mt-4 max-w-md">
+    <Card className="mx-auto mt-4 max-w-md w-full">
       <CardHeader>
         <CardTitle className="text-2xl font-bold">
           <div className="flex justify-between">

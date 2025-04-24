@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 
 const geistSans = Geist({
@@ -34,7 +34,6 @@ export default function RootLayout({
           <div className="flex min-h-screen w-full flex-row-reverse">
             <AppSidebar side="right" />
             <div className="relative flex-1">
-              <SidebarTrigger />
               {children}
             </div>
           </div>

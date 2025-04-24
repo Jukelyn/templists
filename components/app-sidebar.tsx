@@ -14,7 +14,7 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 
-import { CheckSquare, Star } from "lucide-react";
+import { Download } from "lucide-react";
 
 const SidebarContext = createContext<{
   isSidebarOpen: boolean;
@@ -46,25 +46,25 @@ export const useSidebar = () => useContext(SidebarContext);
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar side="right" {...props}>
+    <Sidebar side="right" {...props} className="w-84">
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Templists</SidebarGroupLabel>
+          <SidebarGroupLabel>Options</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
                   <button>
-                    <CheckSquare className="h-4 w-4" />
-                    <span>All Templists</span>
+                    <Download className="h-4 w-4" />
+                    <span>Export All Templists</span>
                   </button>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
                   <button>
-                    <Star className="h-4 w-4" />
-                    <span>Favorites</span>
+                    <Download className="h-4 w-4" />
+                    <span>Export Saved Templists</span>
                   </button>
                 </SidebarMenuButton>
               </SidebarMenuItem>

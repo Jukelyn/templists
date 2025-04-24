@@ -6,6 +6,7 @@ import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { TemplistReducer } from "@/lib/utils/TemplistReducer";
 import { useTemplistHandlers } from "@/lib/utils/TemplistHandlers";
+import { SidebarTrigger } from "@/components/ui/sidebar";
 
 export default function ChecklistApp() {
   const [templistCards, dispatch] = useReducer(TemplistReducer, []);
@@ -23,8 +24,10 @@ export default function ChecklistApp() {
 
   return (
     <>
-      <div className="min-h-screen bg-gray-50 p-6 dark:bg-black">
-        <div className="pt-6">
+      <div className="min-h-screen p-6 md:p-4 lg:p-2 dark:bg-black">
+        <div className="flex flex-col items-end">
+          <SidebarTrigger />
+        </div>
           {templistCards.map((card) => (
             <TemplistCard
               key={card.templistId}
@@ -37,7 +40,7 @@ export default function ChecklistApp() {
             />
           ))}
         </div>
-        <div className="flex justify-center gap-4 pt-4">
+        <div className="flex w-full justify-center gap-4 pt-4">
           <Button onClick={handleAddTemplist}>
             <Plus className="mr-1 h-4 w-4" />
             Add New Templist
