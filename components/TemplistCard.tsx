@@ -22,79 +22,53 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
   items: initialItems,
   onSave,
 }) => {
-  const [localItems, setLocalItems] = useState<TemplistItem[]>(initialItems);
-  const [newItemText, setNewItemText] = useState("");
-  const [editingId, setEditingId] = useState<string | null>(null);
-  const [editText, setEditText] = useState("");
+  // Instantiate the core list hook
+  const {
+    items: localItems, // Renamed from 'items' to avoid conflict
+    lastUpdated,
+    addItemToList,
+    deleteItemFromList,
+    toggleItemComplete,
+    updateItemText,
+  } = useTaskList(initialItems, templistId);
 
-  useEffect(() => {
-    setLocalItems(initialItems);
-  }, [initialItems]);
+  // Instantiate the add form hook, passing the adder function from useTaskList
+  const { newItemText, setNewItemText, submitNewItem } = useAddItem({
+    onAddItem: addItemToList, // Wire the callback
+  });
 
-  const addItem = () => {
-    if (newItemText.trim() === "") return;
-
-    if (newItemText.trim() === "") return;
-
-    const newItem: TemplistItem = {
-      itemId: getItemId(templistId, localItems),
-      text: newItemText,
-      completed: false,
-    };
-    setLocalItems((prevItems) => [...prevItems, newItem]);
-    toast.success(`Item added to templist ${templistId}.`);
-  };
-
-  const deleteItem = (id: string) => {
-    setLocalItems((prevItems) =>
-      prevItems.filter((item) => item.itemId !== id),
-    );
-  };
-
-  const toggleComplete = (id: string) => {
-    setLocalItems((prevItems) =>
-      prevItems.map((item) =>
-        item.itemId === id ? { ...item, completed: !item.completed } : item,
-      ),
-    );
-  };
-
-  const startEditing = (item: TemplistItem) => {
-    setEditingId(item.itemId);
-    setEditText(item.text);
-  };
-
-  const saveEdit = () => {
-    if (!editingId || editText.trim() === "") return;
-    setLocalItems((prevItems) =>
-      prevItems.map((item) =>
-        item.itemId === editingId ? { ...item, text: editText } : item,
-      ),
-    );
-    setEditingId(null);
-  };
-
-  const cancelEdit = () => {
-    setEditingId(null);
-    // Optional: Reset editText if needed, or just rely on startEditing setting it next time
-  };
+  // Instantiate the edit state hook, passing the update function from useTaskList
+  const {
+    editText,
+    setEditText,
+    isEditing, // Use this helper
+    startEditing,
+    saveEdit,
+    cancelEdit,
+  } = useEditItemState({
+    onSaveEdit: updateItemText, // Wire the callback
+  });
 
   // --- Save Button Handler ---
   const handleSave = () => {
-    // Call the onSave prop passed from the parent,
-    // giving it the current state of items in this card.
-    onSave(localItems);
+    onSave(localItems); // Use the current items from useTaskList
   };
+
+  const handleClose = () => {
+    // TODO
+  };
+
+  const displayTimestamp = formatTimestamp(lastUpdated);
 
   return (
     <Card className="mx-auto mt-4 max-w-md">
       <CardHeader>
-        <CardTitle className="text-center text-2xl font-bold">
-          <div className="flex items-center justify-between">
-            <div className="text-center">
+        <CardTitle className="text-2xl font-bold">
+          <div className="flex justify-between">
+            <div className="flex-1">
               Templist {templistId > 1 ? `(${templistId})` : ""}
             </div>
-            <Button variant="ghost" size="icon">
+            <Button variant="ghost" size="icon" onClick={handleClose}>
               <X className="h-4 w-4" />
             </Button>
           </div>
@@ -126,8 +100,7 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
                 key={item.itemId}
                 className="flex items-center rounded-md border bg-black p-3 shadow-sm"
               >
-                {editingId === item.itemId ? (
-                  // --- Editing View ---
+                {isEditing(item.itemId) ? (
                   <div className="flex w-full items-center space-x-2">
                     <Input
                       value={editText}
@@ -144,20 +117,15 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
                     </Button>
                   </div>
                 ) : (
-                  // --- Standard View ---
                   <>
                     <div className="flex flex-1 items-center">
                       <Checkbox
                         checked={item.completed}
-                        onCheckedChange={() => toggleComplete(item.itemId)}
+                        onCheckedChange={() => toggleItemComplete(item.itemId)}
                         className="mr-3"
                       />
                       <span
-                        className={`flex-1 ${
-                          item.completed
-                            ? "text-muted-foreground line-through"
-                            : ""
-                        }`}
+                        className={`flex-1 ${item.completed ? "text-muted-foreground line-through" : ""}`}
                       >
                         {item.text}
                       </span>
@@ -184,10 +152,20 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
             ))
           )}
         </div>
-        <Button onClick={handleSave} className="float-right mt-4 p-2">
-          <Save className="h-4 w-4" />
-          Save this Templist
-        </Button>
+        <div className="mt-4 flex items-center justify-between p-2">
+          {displayTimestamp ? (
+            <div className="text-muted-foreground flex items-center gap-2 text-sm">
+              <Clock className="h-4 w-4" />
+              {`Last change: ${displayTimestamp}`}
+            </div>
+          ) : (
+            <div></div>
+          )}
+          <Button onClick={handleSave}>
+            <Save className="h-4 w-4" />
+            Save this Templist
+          </Button>
+        </div>
       </CardContent>
     </Card>
   );
