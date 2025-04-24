@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { TemplistReducer } from "@/lib/utils/TemplistReducer";
 import { useTemplistHandlers } from "@/lib/utils/TemplistHandlers";
 import { SidebarTrigger } from "@/components/ui/sidebar";
+import { CommandMenu } from "@/components/ui/command-menu";
+import SearchBar from "@/components/ui/search";
 
 export default function ChecklistApp() {
   const [templistCards, dispatch] = useReducer(TemplistReducer, []);
@@ -28,6 +30,11 @@ export default function ChecklistApp() {
         <div className="flex flex-col items-end">
           <SidebarTrigger />
         </div>
+        <div className="flex flex-col items-center pt-6">
+          <div className="w-full max-w-md">
+            <SearchBar />
+          </div>
+          <CommandMenu />
           {templistCards.map((card) => (
             <TemplistCard
               key={card.templistId}
