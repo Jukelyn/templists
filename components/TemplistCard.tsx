@@ -14,13 +14,14 @@ interface TemplistCardProps {
   templistId: number;
   items: TemplistItem[];
   onSave: (updatedItems: TemplistItem[]) => void;
-  onClose?: (templistId: number) => void;
+  onDelete: () => void;
 }
 
 export const TemplistCard: React.FC<TemplistCardProps> = ({
   templistId,
   items: initialItems,
   onSave,
+  onDelete,
 }) => {
   // Instantiate the core list hook
   const {
@@ -54,8 +55,8 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
     onSave(localItems); // Use the current items from useTaskList
   };
 
-  const handleClose = () => {
-    // TODO
+  const handleDelete = () => {
+    onDelete();
   };
 
   const displayTimestamp = formatTimestamp(lastUpdated);
@@ -68,7 +69,7 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
             <div className="flex-1">
               Templist {templistId > 1 ? `(${templistId})` : ""}
             </div>
-            <Button variant="ghost" size="icon" onClick={handleClose}>
+            <Button variant="ghost" size="icon" onClick={handleDelete}>
               <X className="h-4 w-4" />
             </Button>
           </div>

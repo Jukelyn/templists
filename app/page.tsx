@@ -10,12 +10,13 @@ import { toast } from "sonner";
 type Action =
   | { type: "SET_INITIAL_STATE"; payload: Templist[] }
   | { type: "UPDATE_ITEMS"; templistId: number; newItems: TemplistItem[] }
-  | { type: "ADD_TEMPLIST"; newTemplist: Templist };
+  | { type: "ADD_TEMPLIST"; newTemplist: Templist }
+  | { type: "REMOVE_TEMPLIST"; templistId: number };
 
 function reducer(state: Templist[], action: Action): Templist[] {
   switch (action.type) {
     case "SET_INITIAL_STATE":
-      return action.payload;
+      return [...action.payload].sort((a, b) => a.templistId - b.templistId);
     case "UPDATE_ITEMS":
       return state.map((t) =>
         t.templistId === action.templistId
@@ -29,7 +30,38 @@ function reducer(state: Templist[], action: Action): Templist[] {
         );
         return state;
       }
+
       return [...state, action.newTemplist];
+    case "REMOVE_TEMPLIST":
+      const templistToRemove = state.find(
+        (t) => t.templistId === action.templistId,
+      );
+      if (!templistToRemove) {
+        console.warn(
+          `Templist with ID ${action.templistId} not found for removal.`,
+        );
+
+        throw Error(`Templist of id ${action.templistId} not found.`);
+      }
+      const currentSavedLists = localStorage.getItem("Templists");
+      if (currentSavedLists) {
+        try {
+          const parsedData = JSON.parse(currentSavedLists) as {
+            templists: Templist[];
+          };
+          const updatedTemplists = parsedData.templists.filter(
+            (t) => t.templistId !== action.templistId,
+          );
+          localStorage.setItem(
+            "Templists",
+            JSON.stringify({ templists: updatedTemplists }),
+          );
+        } catch (error) {
+          console.error("Error parsing localStorage data:", error);
+        }
+      }
+
+      return state.filter((t) => t.templistId !== action.templistId);
     default:
       throw Error("Unknown action.");
   }
@@ -136,6 +168,11 @@ export default function ChecklistApp() {
     dispatch({ type: "ADD_TEMPLIST", newTemplist });
   };
 
+  const handleDelete = (templistId: number) => {
+    // Modal here, confirm delete
+    dispatch({ type: "REMOVE_TEMPLIST", templistId });
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 p-6 dark:bg-black">
       <div className="pt-6">
@@ -145,6 +182,7 @@ export default function ChecklistApp() {
             templistId={card.templistId}
             items={card.items}
             onSave={(updatedItems) => handleSave(card.templistId, updatedItems)}
+            onDelete={() => handleDelete(card.templistId)}
           />
         ))}
       </div>
