@@ -19,6 +19,7 @@ export function CommandMenu() {
         setOpen((open) => !open);
       }
     };
+
     document.addEventListener("keydown", down);
     return () => document.removeEventListener("keydown", down);
   }, []);
@@ -29,9 +30,8 @@ export function CommandMenu() {
       <CommandList>
         <CommandEmpty>No results found.</CommandEmpty>
         <CommandGroup>
-          <CommandItem>Calendar</CommandItem>
-          <CommandItem>Search Emoji</CommandItem>
-          <CommandItem>Calculator</CommandItem>
+          <CommandItem>Templist 1</CommandItem>
+          <CommandItem>Templist 2</CommandItem>
         </CommandGroup>
       </CommandList>
     </CommandDialog>
