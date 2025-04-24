@@ -1,118 +1,25 @@
 "use client";
 
-import { useReducer, useRef, useEffect, useCallback } from "react";
+import { useEffect, useReducer, useRef } from "react";
 import { TemplistCard } from "@/components/TemplistCard";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Templist, TemplistItem } from "@/types/templist";
-import { toast } from "sonner";
 import { TemplistReducer } from "@/lib/utils/TemplistReducer";
-
-const getLastTemplistId = (templists: Templist[]): number => {
-  if (!templists || templists.length === 0) {
-    return 0;
-  }
-  return Math.max(...templists.map((t) => t.templistId));
-};
+import { useTemplistHandlers } from "@/lib/utils/TemplistHandlers";
 
 export default function ChecklistApp() {
   const [templistCards, dispatch] = useReducer(TemplistReducer, []);
   const isDataLoaded = useRef(false);
-  const nextId = useRef(0);
+
+  const { handleSave, handleAddTemplist, handleDelete, initializeTemplists } =
+    useTemplistHandlers(dispatch);
 
   useEffect(() => {
     if (!isDataLoaded.current) {
-      try {
-        const storedData = localStorage.getItem("Templists");
-        const initialData = storedData
-          ? (JSON.parse(storedData) as { templists: Templist[] })
-          : { templists: [] };
-
-        if (initialData && Array.isArray(initialData.templists)) {
-          dispatch({
-            type: "SET_INITIAL_STATE",
-            templists: initialData.templists,
-          });
-
-          nextId.current = getLastTemplistId(initialData.templists);
-          isDataLoaded.current = true;
-        } else {
-          console.error(
-            "Failed to load initial templists data or data format is incorrect.",
-          );
-
-          nextId.current = 0;
-          isDataLoaded.current = true;
-        }
-      } catch (error) {
-        console.error("Error parsing localStorage data:", error);
-        nextId.current = 0;
-        isDataLoaded.current = true;
-      }
+      initializeTemplists();
+      isDataLoaded.current = true;
     }
-  }, []);
-
-  const handleSave = useCallback(
-    async (templistId: number, updatedItems: TemplistItem[]) => {
-      try {
-        const storedData = localStorage.getItem("Templists");
-        const existingData = storedData
-          ? (JSON.parse(storedData) as { templists: Templist[] })
-          : { templists: [] };
-
-        // Check if the templist already exists
-        const templistExists = existingData.templists.some(
-          (t) => t.templistId === templistId,
-        );
-
-        let updatedTemplists;
-
-        if (templistExists) {
-          // Update existing templist
-          updatedTemplists = existingData.templists.map((t) =>
-            t.templistId === templistId ? { ...t, items: updatedItems } : t,
-          );
-        } else {
-          // Add new templist
-          const newTemplist: Templist = {
-            templistId: templistId,
-            items: updatedItems,
-          };
-          updatedTemplists = [...existingData.templists, newTemplist];
-        }
-
-        localStorage.setItem(
-          "Templists",
-          JSON.stringify({ templists: updatedTemplists }),
-        );
-
-        dispatch({
-          type: "UPDATE_ITEMS",
-          templistId: templistId,
-          newItems: updatedItems,
-        });
-
-        toast.success(`Templist ${templistId} successfully saved!`);
-      } catch (error) {
-        toast.error(`Error saving templists: ${error}`);
-      }
-    },
-    [dispatch],
-  );
-
-  const handleAddTemplist = () => {
-    const newId = ++nextId.current;
-    const newTemplist: Templist = {
-      templistId: newId,
-      items: [],
-    };
-    dispatch({ type: "ADD_TEMPLIST", newTemplist });
-  };
-
-  const handleDelete = (templistId: number) => {
-    // Modal here, confirm delete
-    dispatch({ type: "REMOVE_TEMPLIST", templistId });
-  };
+  }, [initializeTemplists]);
 
   return (
     <div className="min-h-screen bg-gray-50 p-6 dark:bg-black">
