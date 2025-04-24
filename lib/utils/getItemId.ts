@@ -13,7 +13,7 @@ const getLastItemIdForTemplist = (templistId: number): number => {
   return Math.max(...templist.items.map((t) => parseInt(t.itemId, 10) + 1));
 };
 
-export const getItemId = (
+const getItemId = (
   templistId: number,
   initialItems: TemplistItem[],
 ): string => {
@@ -29,3 +29,5 @@ export const getItemId = (
 
   return currentSavedMaxItemId.toString();
 };
+
+export default getItemId;
