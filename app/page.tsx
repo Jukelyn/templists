@@ -36,7 +36,7 @@ export default function ChecklistApp() {
               <SearchBar />
             </div>
           )}
-          <CommandMenu />
+          {templistCards.length > 0 && <CommandMenu />}
           {templistCards.map((card) => (
             <TemplistCard
               key={card.templistId}
