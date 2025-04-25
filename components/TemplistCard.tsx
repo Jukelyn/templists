@@ -125,6 +125,9 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
             Save this Templist
           </Button>
         </div>
+        <div className="text-muted-foreground mt-4 text-center text-xs">
+          List ULID: {templistULID}
+        </div>
       </CardContent>
     </Card>
   );
