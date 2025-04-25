@@ -7,9 +7,12 @@ export function TemplistReducer(
 ): Templist[] {
   switch (action.type) {
     case "SET_INITIAL_STATE":
-      return [...action.templists].sort((a, b) =>
-        a.templistULID.localeCompare(b.templistULID),
-      );
+      // Ensure templists is an array before sorting
+      return Array.isArray(action.templists)
+        ? [...action.templists].sort((a, b) =>
+            a.templistULID.localeCompare(b.templistULID),
+          )
+        : state; // Return current state if initial data is invalid
 
     case "UPDATE_ITEMS":
       return state.map((t) =>
@@ -29,34 +32,18 @@ export function TemplistReducer(
 
       return [...state, action.newTemplist];
     case "REMOVE_TEMPLIST":
+      // The localStorage removal logic has been moved to the handler.
+      // This case now only updates the working state.
       const templistToRemove = state.find(
         (t) => t.templistULID === action.templistULID,
       );
       if (!templistToRemove) {
         console.warn(
-          `Templist with ID ${action.templistULID} not found for removal.`,
+          `Templist with ID ${action.templistULID} not found for removal in reducer.`,
         );
-
-        throw Error(`Templist of id ${action.templistULID} not found.`);
+        // Do not throw error in reducer, just return current state
+        return state;
       }
-      const currentSavedLists = localStorage.getItem("Templists");
-      if (currentSavedLists) {
-        try {
-          const parsedData = JSON.parse(currentSavedLists) as {
-            templists: Templist[];
-          };
-          const updatedTemplists = parsedData.templists.filter(
-            (t) => t.templistULID !== action.templistULID,
-          );
-          localStorage.setItem(
-            "Templists",
-            JSON.stringify({ templists: updatedTemplists }),
-          );
-        } catch (error) {
-          console.error("Error parsing localStorage data:", error);
-        }
-      }
-
       return state.filter((t) => t.templistULID !== action.templistULID);
     default:
       throw Error("Unknown action.");

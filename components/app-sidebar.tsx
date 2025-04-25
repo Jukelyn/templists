@@ -1,6 +1,7 @@
 "use client";
 
-import React, { createContext, useContext, useState } from "react";
+import React from "react";
+import { useTemplistContext } from "@/components/TemplistContext";
 
 import {
   Sidebar,
@@ -13,38 +14,12 @@ import {
   SidebarMenuButton,
   SidebarRail,
 } from "@/components/ui/sidebar";
-
 import { Download } from "lucide-react";
 
-const SidebarContext = createContext<{
-  isSidebarOpen: boolean;
-  toggleSidebar: () => void;
-}>({
-  isSidebarOpen: false,
-  toggleSidebar: () => {},
-});
-
-export const SidebarProvider = ({
-  defaultOpen = false,
-  children,
-}: {
-  defaultOpen?: boolean;
-  children: React.ReactNode;
-}) => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(defaultOpen);
-
-  const toggleSidebar = () => setIsSidebarOpen((prev) => !prev);
-
-  return (
-    <SidebarContext.Provider value={{ isSidebarOpen, toggleSidebar }}>
-      {children}
-    </SidebarContext.Provider>
-  );
-};
-
-export const useSidebar = () => useContext(SidebarContext);
-
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  // Use the context hook to get the saved templists state
+  const { savedTemplists } = useTemplistContext();
+
   return (
     <Sidebar side="right" {...props} className="w-84">
       <SidebarContent>
@@ -68,6 +43,23 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   </button>
                 </SidebarMenuButton>
               </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        <SidebarGroup>
+          <SidebarGroupLabel>Saved Templists</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {/* Use savedTemplists from the context */}
+              {savedTemplists.map((item) => (
+                <SidebarMenuItem key={item.templistULID}>
+                  <SidebarMenuButton asChild>
+                    <button>
+                      <span>ULID: {item.templistULID}</span>
+                    </button>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

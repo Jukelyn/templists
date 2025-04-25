@@ -1,3 +1,5 @@
+"use client";
+
 import { Save, Plus, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -26,7 +28,6 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
   onSave,
   onDelete,
 }) => {
-  // Instantiate the core list hook
   const {
     items: localItems, // Renamed from 'items' to avoid conflict
     lastUpdated,
@@ -36,21 +37,19 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
     updateItemText,
   } = useTaskList(initialItems, templistULID || "");
 
-  // Instantiate the add form hook, passing the adder function from useTaskList
   const { newItemText, setNewItemText, submitNewItem } = useAddItem({
-    onAddItem: addItemToList, // Wire the callback
+    onAddItem: addItemToList,
   });
 
-  // Instantiate the edit state hook, passing the update function from useTaskList
   const {
     editText,
     setEditText,
-    isEditing, // Use this helper
+    isEditing,
     startEditing,
     saveEdit,
     cancelEdit,
   } = useEditItemState({
-    onSaveEdit: updateItemText, // Wire the callback
+    onSaveEdit: updateItemText,
   });
 
   // --- Save Button Handler ---
@@ -87,7 +86,7 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
             placeholder="Add new item..."
             value={newItemText}
             onChange={(e) => setNewItemText(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && submitNewItem()} // Use submitNewItem
+            onKeyDown={(e) => e.key === "Enter" && submitNewItem()}
             className="flex-1"
           />
           <Button onClick={submitNewItem}>

@@ -3,7 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import { SidebarProvider } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/app-sidebar";
+
+import TemplistLayoutClient from "@/components/TemplistLayoutClient";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,13 +32,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <SidebarProvider defaultOpen={false}>
-          <div className="flex min-h-screen w-full flex-row-reverse">
-            <AppSidebar side="right" />
-            <div className="relative flex-1">
-              {children}
-            </div>
-          </div>
+          <TemplistLayoutClient>{children}</TemplistLayoutClient>
         </SidebarProvider>
+
         <Toaster position="bottom-right" closeButton />
       </body>
     </html>

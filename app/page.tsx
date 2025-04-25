@@ -1,27 +1,15 @@
 "use client";
 
-import { useEffect, useReducer, useRef } from "react";
+import { useTemplistContext } from "@/components/TemplistContext";
 import { TemplistCard } from "@/components/TemplistCard";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { TemplistReducer } from "@/lib/utils/TemplistReducer";
-import { useTemplistHandlers } from "@/lib/utils/TemplistHandlers";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import TemplistSearchWrapper from "@/components/SearchWrapper";
 
 export default function ChecklistApp() {
-  const [templistCards, dispatch] = useReducer(TemplistReducer, []);
-  const isDataLoaded = useRef(false);
-
-  const { handleSave, handleAddTemplist, handleDelete, initializeTemplists } =
-    useTemplistHandlers(dispatch);
-
-  useEffect(() => {
-    if (!isDataLoaded.current) {
-      initializeTemplists();
-      isDataLoaded.current = true;
-    }
-  }, [initializeTemplists]);
+  const { templistCards, handleSave, handleAddTemplist, handleDelete } =
+    useTemplistContext();
 
   return (
     <>
