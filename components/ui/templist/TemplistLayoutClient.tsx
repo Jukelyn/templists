@@ -4,7 +4,7 @@ import React, { useEffect, useReducer, useRef, useState } from "react";
 import { AppSidebar } from "@/components/ui/sidebar/AppSidebar";
 import { TemplistProvider } from "@/components/ui/templist/TemplistContext";
 import { TemplistReducer } from "@/lib/utils/TemplistReducer";
-import { useTemplistHandlers } from "@/lib/utils/TemplistHandlers";
+import { useTemplistHandlers } from "@/lib/utils/templist/TemplistHandlers";
 import { Templist } from "@/types/templist";
 
 interface TemplistLayoutClientProps {

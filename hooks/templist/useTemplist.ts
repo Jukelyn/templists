@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { TemplistItem } from "@/types/templist";
-import getItemId from "@/lib/utils/getItemId";
+import getItemId from "@/lib/utils/templist/getItemId";
 
 interface UseTemplistResult {
   items: TemplistItem[];
