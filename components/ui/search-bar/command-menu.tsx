@@ -38,13 +38,13 @@ export function CommandMenu({ templists, open, setOpen }: CommandMenuProps) {
         <CommandGroup>
           {templists.map((templist) => (
             <Link
-              href={`#${templist.templistULID}`}
-              key={templist.templistULID}
+              href={`#${templist.ulid}`}
+              key={templist.ulid}
               className="w-full"
               onClick={() => setOpen(!open)}
             >
-              <CommandItem key={templist.templistULID}>
-                Templist (ULID: {templist.templistULID})
+              <CommandItem key={templist.ulid}>
+                Templist (ULID: {templist.ulid})
               </CommandItem>
             </Link>
           ))}

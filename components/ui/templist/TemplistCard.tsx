@@ -77,10 +77,7 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
               Templist
             </div>
             {localItems.length > 0 ? (
-              <AlertWithDialog
-                handleOnClick={handleDelete}
-                ulid={ulid}
-              >
+              <AlertWithDialog handleOnClick={handleDelete} ulid={ulid}>
                 <X className="h-4 w-4" />
               </AlertWithDialog>
             ) : (

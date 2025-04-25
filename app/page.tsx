@@ -28,10 +28,9 @@ export default function ChecklistApp() {
             <TemplistCard
               key={card.ulid}
               ulid={card.ulid}
+              title={card.title}
               items={card.items}
-              onSave={(updatedItems) =>
-                handleSave(card.ulid, updatedItems)
-              }
+              onSave={(updatedItems) => handleSave(card.ulid, updatedItems)}
               onDelete={() => handleDelete(card.ulid)}
             />
           ))}
