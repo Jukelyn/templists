@@ -8,21 +8,23 @@ import {
   CommandGroup,
   CommandItem,
 } from "@/components/ui/command";
+interface CommandMenuProps {
+  open: boolean;
+  setOpen: (open: boolean) => void;
+}
 
-export function CommandMenu() {
-  const [open, setOpen] = React.useState(false);
-
+export function CommandMenu({ open, setOpen }: CommandMenuProps) {
   React.useEffect(() => {
     const down = (e: KeyboardEvent) => {
       if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
-        setOpen((open) => !open);
+        setOpen(!open);
       }
     };
 
     document.addEventListener("keydown", down);
     return () => document.removeEventListener("keydown", down);
-  }, []);
+  }, [setOpen]);
 
   return (
     <CommandDialog open={open} onOpenChange={setOpen}>

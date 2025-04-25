@@ -7,8 +7,7 @@ import { Button } from "@/components/ui/button";
 import { TemplistReducer } from "@/lib/utils/TemplistReducer";
 import { useTemplistHandlers } from "@/lib/utils/TemplistHandlers";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { CommandMenu } from "@/components/ui/command-menu";
-import SearchBar from "@/components/ui/search";
+import TemplistSearchWrapper from "@/components/SearchWrapper";
 
 export default function ChecklistApp() {
   const [templistCards, dispatch] = useReducer(TemplistReducer, []);
@@ -34,10 +33,7 @@ export default function ChecklistApp() {
           {/* tf somebody gonna search for where there is nothing??? */}
           {templistCards.length > 0 && (
             <>
-              <div className="w-full max-w-md">
-                <SearchBar />
-              </div>
-              <CommandMenu />
+              <TemplistSearchWrapper />
             </>
           )}
           {templistCards.map((card) => (

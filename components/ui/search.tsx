@@ -4,11 +4,18 @@ import {
   CommandShortcut,
 } from "@/components/ui/command";
 
-export default function SearchBar() {
+interface Props {
+  handleClick: () => void;
+}
+
+export default function SearchBar({ handleClick }: Props) {
   return (
-    <Command className="border-b">
+    <Command className="border-b" onClick={handleClick}>
       <div className="mr-2 flex items-center justify-between">
-        <CommandInput placeholder="Search for a templist..." />
+        <CommandInput
+          placeholder="Search for a templist..."
+          readOnly // Use CommandMenu instead
+        />
         <CommandShortcut>⌘K</CommandShortcut>
       </div>
     </Command>
