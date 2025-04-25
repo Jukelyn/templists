@@ -69,7 +69,7 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
         <CardTitle className="text-2xl font-bold">
           <div className="flex justify-between">
             <div className="flex-1">
-              Templist {templistId > 1 ? `(${templistId})` : ""}
+              Templist {templistId > 1 ? `(id: ${templistId})` : ""}
             </div>
             <Button variant="ghost" size="icon" onClick={handleDelete}>
               <X className="h-4 w-4" />

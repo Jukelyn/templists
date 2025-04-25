@@ -57,7 +57,7 @@ export function useTemplistHandlers(dispatch: React.Dispatch<ActionTypes>) {
           newItems: updatedItems,
         });
 
-        toast.success(`Templist ${templistId} successfully saved!`);
+        toast.success(`Templist (id: ${templistId}) successfully saved!`);
       } catch (error) {
         toast.error(`Error saving templists: ${error}`);
       }
