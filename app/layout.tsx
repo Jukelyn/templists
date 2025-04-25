@@ -38,7 +38,7 @@ export default function RootLayout({
             </div>
           </div>
         </SidebarProvider>
-        <Toaster position="top-center" closeButton />
+        <Toaster position="bottom-right" closeButton />
       </body>
     </html>
   );
