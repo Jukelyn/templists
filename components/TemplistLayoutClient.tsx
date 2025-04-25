@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useReducer, useRef, useState } from "react";
-import { AppSidebar } from "@/components/app-sidebar";
+import { AppSidebar } from "@/components/AppSidebar";
 import { TemplistProvider } from "./TemplistContext";
 import { TemplistReducer } from "@/lib/utils/TemplistReducer";
 import { useTemplistHandlers } from "@/lib/utils/TemplistHandlers";
