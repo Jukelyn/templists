@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import ConditionalTimestamp from "@/components/ConditionalTimestamp";
 import TemplistItemMap from "@/components/ItemMap";
+import AlertWithDialog from "@/components/ui/alert";
 
 import { useTaskList } from "@/hooks/useTaskList";
 import { useAddItem } from "@/hooks/useAddItem";
@@ -71,9 +72,12 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
             <div className="flex-1" id={templistULID}>
               Templist
             </div>
-            <Button variant="ghost" size="icon" onClick={handleDelete}>
+            <AlertWithDialog
+              handleOnClick={handleDelete}
+              templistULID={templistULID}
+            >
               <X className="h-4 w-4" />
-            </Button>
+            </AlertWithDialog>
           </div>
         </CardTitle>
       </CardHeader>
