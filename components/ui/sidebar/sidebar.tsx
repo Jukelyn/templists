@@ -5,11 +5,11 @@ import { Slot } from "@radix-ui/react-slot";
 import { type VariantProps, cva } from "class-variance-authority";
 import { PanelRight } from "lucide-react";
 
-import { useIsMobile } from "@/hooks/use-mobile";
+import { useIsMobile } from "@/hooks/sidebar/use-mobile";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { Sheet, SheetContent } from "@/components/ui/sheet";
+import { Separator } from "@/components/ui/sidebar/separator";
+import { Sheet, SheetContent } from "@/components/ui/sidebar/sheet";
 import {
   Tooltip,
   TooltipContent,
