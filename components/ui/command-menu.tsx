@@ -24,7 +24,7 @@ export function CommandMenu({ open, setOpen }: CommandMenuProps) {
 
     document.addEventListener("keydown", down);
     return () => document.removeEventListener("keydown", down);
-  }, [setOpen]);
+  }, [open, setOpen]);
 
   return (
     <CommandDialog open={open} onOpenChange={setOpen}>
