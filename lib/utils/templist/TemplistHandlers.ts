@@ -84,6 +84,7 @@ export function useTemplistHandlers(
     const newId = ulid();
     const newTemplist: Templist = {
       ulid: newId,
+      title: `Templist ${newId.slice(-4)}`,
       items: [],
     };
     dispatch({ type: "ADD_TEMPLIST", newTemplist });

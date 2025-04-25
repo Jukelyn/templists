@@ -1,5 +1,6 @@
 export interface Templist {
   ulid: string;
+  title: string;
   items: TemplistItem[];
 }
 

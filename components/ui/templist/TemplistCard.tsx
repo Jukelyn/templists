@@ -22,6 +22,7 @@ import { TemplistItem } from "@/types/templist";
 
 interface TemplistCardProps {
   ulid: string;
+  title: string;
   items: TemplistItem[];
   onSave: (updatedItems: TemplistItem[]) => void;
   onDelete: () => void;
@@ -29,6 +30,7 @@ interface TemplistCardProps {
 
 export const TemplistCard: React.FC<TemplistCardProps> = ({
   ulid,
+  title,
   items: initialItems,
   onSave,
   onDelete,
@@ -74,7 +76,7 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
         <CardTitle className="text-2xl font-bold">
           <div className="flex justify-between">
             <div className="flex-1" id={ulid}>
-              Templist
+              {title ? title : `Templist ${ulid.slice(-5)}`}
             </div>
             {localItems.length > 0 ? (
               <AlertWithDialog handleOnClick={handleDelete} ulid={ulid}>
