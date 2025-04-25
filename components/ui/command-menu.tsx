@@ -44,7 +44,7 @@ export function CommandMenu({ templists, open, setOpen }: CommandMenuProps) {
               onClick={() => setOpen(!open)}
             >
               <CommandItem key={templist.templistULID}>
-                Templist (id: {templist.templistULID})
+                Templist (ULID: {templist.templistULID})
               </CommandItem>
             </Link>
           ))}
