@@ -33,7 +33,7 @@ export default function ChecklistApp() {
           {/* tf somebody gonna search for where there is nothing??? */}
           {templistCards.length > 0 && (
             <>
-              <TemplistSearchWrapper />
+              <TemplistSearchWrapper templists={templistCards} />
             </>
           )}
           {templistCards.map((card) => (

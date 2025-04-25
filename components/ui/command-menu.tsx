@@ -8,12 +8,16 @@ import {
   CommandGroup,
   CommandItem,
 } from "@/components/ui/command";
+
+import { Templist } from "@/types/templist";
+import Link from "next/link";
 interface CommandMenuProps {
+  templists: Templist[];
   open: boolean;
   setOpen: (open: boolean) => void;
 }
 
-export function CommandMenu({ open, setOpen }: CommandMenuProps) {
+export function CommandMenu({ templists, open, setOpen }: CommandMenuProps) {
   React.useEffect(() => {
     const down = (e: KeyboardEvent) => {
       if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
@@ -32,8 +36,18 @@ export function CommandMenu({ open, setOpen }: CommandMenuProps) {
       <CommandList>
         <CommandEmpty>No results found.</CommandEmpty>
         <CommandGroup>
-          <CommandItem>Templist 1</CommandItem>
-          <CommandItem>Templist 2</CommandItem>
+          {templists.map((templist) => (
+            <Link
+              href={`#templist${templist.templistId}`}
+              key={templist.templistId}
+              className="w-full"
+              onClick={() => setOpen(!open)}
+            >
+              <CommandItem key={templist.templistId}>
+                Templist (id: {templist.templistId})
+              </CommandItem>
+            </Link>
+          ))}
         </CommandGroup>
       </CommandList>
     </CommandDialog>

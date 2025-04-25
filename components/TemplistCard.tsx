@@ -64,11 +64,11 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
   const displayTimestamp = formatTimestamp(lastUpdated);
 
   return (
-    <Card className="mx-auto mt-4 max-w-md w-full">
+    <Card className="mx-auto mt-4 w-full max-w-md">
       <CardHeader>
         <CardTitle className="text-2xl font-bold">
           <div className="flex justify-between">
-            <div className="flex-1">
+            <div className="flex-1" id={`templist${templistId}`}>
               Templist {templistId > 1 ? `(id: ${templistId})` : ""}
             </div>
             <Button variant="ghost" size="icon" onClick={handleDelete}>
