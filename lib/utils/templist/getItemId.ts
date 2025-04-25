@@ -5,7 +5,7 @@ const getLastItemIdForTemplist = (templistULID: string): number => {
     templists: Templist[];
   };
   const templist = lists.templists.find(
-    (list) => list.templistULID === templistULID,
+    (list) => list.ulid === templistULID,
   );
 
   if (!templist || !templist.items || templist.items.length === 0) {

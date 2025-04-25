@@ -52,10 +52,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <SidebarMenu>
               {/* Use savedTemplists from the context */}
               {savedTemplists.map((item) => (
-                <SidebarMenuItem key={item.templistULID}>
+                <SidebarMenuItem key={item.ulid}>
                   <SidebarMenuButton asChild>
                     <button>
-                      <span>ULID: {item.templistULID}</span>
+                      <span>ULID: {item.ulid}</span>
                     </button>
                   </SidebarMenuButton>
                 </SidebarMenuItem>

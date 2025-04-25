@@ -12,13 +12,13 @@ import {
 
 interface Props {
   handleOnClick: () => void;
-  templistULID: string;
+  ulid: string;
   children: React.ReactNode;
 }
 
 export default function AlertWithDialog({
   handleOnClick,
-  templistULID,
+  ulid,
   children,
 }: Props) {
   return (
@@ -30,7 +30,7 @@ export default function AlertWithDialog({
             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
             <AlertDialogDescription>
               This action cannot be undone. This will permanently delete this
-              templist (ULID: {templistULID}).
+              templist (ULID: {ulid}).
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

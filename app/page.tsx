@@ -26,13 +26,13 @@ export default function ChecklistApp() {
           )}
           {templistCards.map((card) => (
             <TemplistCard
-              key={card.templistULID}
-              templistULID={card.templistULID}
+              key={card.ulid}
+              ulid={card.ulid}
               items={card.items}
               onSave={(updatedItems) =>
-                handleSave(card.templistULID, updatedItems)
+                handleSave(card.ulid, updatedItems)
               }
-              onDelete={() => handleDelete(card.templistULID)}
+              onDelete={() => handleDelete(card.ulid)}
             />
           ))}
         </div>

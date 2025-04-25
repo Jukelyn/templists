@@ -10,22 +10,22 @@ export function TemplistReducer(
       // Ensure templists is an array before sorting
       return Array.isArray(action.templists)
         ? [...action.templists].sort((a, b) =>
-            a.templistULID.localeCompare(b.templistULID),
+            a.ulid.localeCompare(b.ulid),
           )
         : state; // Return current state if initial data is invalid
 
     case "UPDATE_ITEMS":
       return state.map((t) =>
-        t.templistULID === action.templistULID
+        t.ulid === action.ulid
           ? { ...t, items: action.newItems }
           : t,
       );
     case "ADD_TEMPLIST":
       if (
-        state.some((t) => t.templistULID === action.newTemplist.templistULID)
+        state.some((t) => t.ulid === action.newTemplist.ulid)
       ) {
         console.warn(
-          `Templist with ID ${action.newTemplist.templistULID} already exists.`,
+          `Templist with ID ${action.newTemplist.ulid} already exists.`,
         );
         return state;
       }
@@ -35,16 +35,16 @@ export function TemplistReducer(
       // The localStorage removal logic has been moved to the handler.
       // This case now only updates the working state.
       const templistToRemove = state.find(
-        (t) => t.templistULID === action.templistULID,
+        (t) => t.ulid === action.ulid,
       );
       if (!templistToRemove) {
         console.warn(
-          `Templist with ID ${action.templistULID} not found for removal in reducer.`,
+          `Templist with ID ${action.ulid} not found for removal in reducer.`,
         );
         // Do not throw error in reducer, just return current state
         return state;
       }
-      return state.filter((t) => t.templistULID !== action.templistULID);
+      return state.filter((t) => t.ulid !== action.ulid);
     default:
       throw Error("Unknown action.");
   }

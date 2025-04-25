@@ -24,7 +24,7 @@ export function useTemplistHandlers(
     }
   }, [dispatch, setSavedTemplists]);
   const handleSave = useCallback(
-    (templistULID: string, updatedItems: TemplistItem[]) => {
+    (ulid: string, updatedItems: TemplistItem[]) => {
       try {
         const storedData = localStorage.getItem("Templists");
         const existingData = storedData
@@ -36,7 +36,7 @@ export function useTemplistHandlers(
           : [];
 
         const templistIndex = existingTemplistsArray.findIndex(
-          (t) => t.templistULID === templistULID,
+          (t) => t.ulid === ulid,
         );
 
         let updatedTemplistsArray: Templist[];
@@ -50,7 +50,7 @@ export function useTemplistHandlers(
           // Add new templist if it doesn't exist (though usually add happens before save)
           updatedTemplistsArray = [
             ...existingTemplistsArray,
-            { templistULID, items: updatedItems } as Templist,
+            { ulid, items: updatedItems } as Templist,
           ];
         }
 
@@ -63,14 +63,14 @@ export function useTemplistHandlers(
         // Dispatch action to update the working state (templistCards)
         dispatch({
           type: "UPDATE_ITEMS",
-          templistULID,
+          ulid,
           newItems: updatedItems,
         });
 
         // Explicitly update the saved state after saving to localStorage
         setSavedTemplists(updatedTemplistsArray);
 
-        toast.success(`Templist (ULID: ${templistULID}) successfully saved!`);
+        toast.success(`Templist (ULID: ${ulid}) successfully saved!`);
       } catch (error) {
         toast.error(`Error saving templists: ${error}`);
       }
@@ -83,15 +83,15 @@ export function useTemplistHandlers(
   const handleAddTemplist = useCallback(() => {
     const newId = ulid();
     const newTemplist: Templist = {
-      templistULID: newId,
+      ulid: newId,
       items: [],
     };
     dispatch({ type: "ADD_TEMPLIST", newTemplist });
   }, [dispatch]);
 
   const handleDelete = useCallback(
-    (templistULID: string) => {
-      dispatch({ type: "REMOVE_TEMPLIST", templistULID });
+    (ulid: string) => {
+      dispatch({ type: "REMOVE_TEMPLIST", ulid });
 
       try {
         const storedData = localStorage.getItem("Templists");
@@ -102,7 +102,7 @@ export function useTemplistHandlers(
               templists: Templist[];
             };
             updatedTemplists = (parsedData.templists || []).filter(
-              (t) => t.templistULID !== templistULID,
+              (t) => t.ulid !== ulid,
             );
             localStorage.setItem(
               "Templists",
@@ -122,7 +122,7 @@ export function useTemplistHandlers(
         // Explicitly update the saved state after deleting from localStorage
         setSavedTemplists(updatedTemplists); // Update the saved state
 
-        toast.success(`Templist (ULID: ${templistULID}) successfully deleted!`);
+        toast.success(`Templist (ULID: ${ulid}) successfully deleted!`);
       } catch (error) {
         toast.error(`Error deleting templists: ${error}`);
       }

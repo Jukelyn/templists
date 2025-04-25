@@ -21,14 +21,14 @@ import formatTimestamp from "@/lib/utils/dateUtils";
 import { TemplistItem } from "@/types/templist";
 
 interface TemplistCardProps {
-  templistULID: string;
+  ulid: string;
   items: TemplistItem[];
   onSave: (updatedItems: TemplistItem[]) => void;
   onDelete: () => void;
 }
 
 export const TemplistCard: React.FC<TemplistCardProps> = ({
-  templistULID,
+  ulid,
   items: initialItems,
   onSave,
   onDelete,
@@ -40,7 +40,7 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
     deleteItemFromList,
     toggleItemComplete,
     updateItemText,
-  } = useTemplist(initialItems, templistULID || "");
+  } = useTemplist(initialItems, ulid || "");
 
   const { newItemText, setNewItemText, submitNewItem } = useAddItem({
     onAddItem: addItemToList,
@@ -73,13 +73,13 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
       <CardHeader>
         <CardTitle className="text-2xl font-bold">
           <div className="flex justify-between">
-            <div className="flex-1" id={templistULID}>
+            <div className="flex-1" id={ulid}>
               Templist
             </div>
             {localItems.length > 0 ? (
               <AlertWithDialog
                 handleOnClick={handleDelete}
-                templistULID={templistULID}
+                ulid={ulid}
               >
                 <X className="h-4 w-4" />
               </AlertWithDialog>
@@ -136,7 +136,7 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
           </Button>
         </div>
         <div className="text-muted-foreground mt-4 text-center text-xs">
-          List ULID: {templistULID}
+          List ULID: {ulid}
         </div>
       </CardContent>
     </Card>
