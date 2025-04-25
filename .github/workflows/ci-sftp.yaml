@@ -4,6 +4,13 @@ name: CI-SFTP
 on:
   push:
     branches: [main]
+    paths:
+      - "app/"
+      - "components/"
+      - "hooks/"
+      - "lib/"
+      - "public/"
+      - "types/"
 
   workflow_dispatch:
 
