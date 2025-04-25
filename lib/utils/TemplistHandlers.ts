@@ -119,9 +119,6 @@ export function useTemplistHandlers(
           updatedTemplists = [];
         }
 
-        // Dispatch action to remove from the working state (templistCards)
-        dispatch({ type: "REMOVE_TEMPLIST", templistULID }); // Keep dispatching to update working state
-
         // Explicitly update the saved state after deleting from localStorage
         setSavedTemplists(updatedTemplists); // Update the saved state
 
