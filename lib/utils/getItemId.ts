@@ -1,9 +1,11 @@
-import data from "@/data/templists.json";
-import { TemplistItem } from "@/types/templist";
+import { Templist, TemplistItem } from "@/types/templist";
 
-const getLastItemIdForTemplist = (templistId: number): number => {
-  const templist = data.templists.find(
-    (list) => list.templistId === templistId,
+const getLastItemIdForTemplist = (templistULID: string): number => {
+  const lists = JSON.parse(localStorage.getItem("Templists") || "{}") as {
+    templists: Templist[];
+  };
+  const templist = lists.templists.find(
+    (list) => list.templistULID === templistULID,
   );
 
   if (!templist || !templist.items || templist.items.length === 0) {
@@ -14,10 +16,10 @@ const getLastItemIdForTemplist = (templistId: number): number => {
 };
 
 const getItemId = (
-  templistId: number,
+  templistULID: string,
   initialItems: TemplistItem[],
 ): string => {
-  const currentSavedMaxItemId = getLastItemIdForTemplist(templistId);
+  const currentSavedMaxItemId = getLastItemIdForTemplist(templistULID);
 
   if (initialItems && initialItems.length > 0) {
     const initialMaxItemId = Math.max(

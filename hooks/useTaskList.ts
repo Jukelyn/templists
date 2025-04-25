@@ -13,7 +13,7 @@ interface UseTaskListResult {
 
 export function useTaskList(
   initialItems: TemplistItem[],
-  templistId: number,
+  templistULID: string,
 ): UseTaskListResult {
   const [items, setItems] = useState<TemplistItem[]>(initialItems);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
@@ -33,14 +33,14 @@ export function useTaskList(
   const addItemToList = useCallback(
     (text: string) => {
       const newItem: TemplistItem = {
-        itemId: getItemId(templistId, items),
+        itemId: getItemId(templistULID, items),
         text: text.trim(),
         completed: false,
       };
       setItems((prev) => [...prev, newItem]);
       touchTimestamp();
     },
-    [templistId, items, touchTimestamp],
+    [templistULID, items, touchTimestamp],
   ); // Depends on current items state for ID generation
 
   const deleteItemFromList = useCallback(

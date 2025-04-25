@@ -1,15 +1,11 @@
-import { useCallback, useRef } from "react";
+import { useCallback } from "react";
 import { Templist, TemplistItem } from "@/types/templist";
 import { toast } from "sonner";
 import { ActionTypes } from "@/types/actions";
+import { ulid } from 'ulid';
 
-const getLastTemplistId = (templists: Templist[]): number => {
-  if (!templists || templists.length === 0) return 0;
-  return Math.max(...templists.map((t) => t.templistId));
-};
 
 export function useTemplistHandlers(dispatch: React.Dispatch<ActionTypes>) {
-  const nextId = useRef(0);
 
   const initializeTemplists = () => {
     const storedData = localStorage.getItem("Templists");
@@ -19,14 +15,11 @@ export function useTemplistHandlers(dispatch: React.Dispatch<ActionTypes>) {
 
     if (initialData && Array.isArray(initialData.templists)) {
       dispatch({ type: "SET_INITIAL_STATE", templists: initialData.templists });
-      nextId.current = getLastTemplistId(initialData.templists);
-    } else {
-      nextId.current = 0;
     }
   };
 
   const handleSave = useCallback(
-    (templistId: number, updatedItems: TemplistItem[]) => {
+    (templistULID: string, updatedItems: TemplistItem[]) => {
       try {
         const storedData = localStorage.getItem("Templists");
         const existingData = storedData
@@ -34,16 +27,16 @@ export function useTemplistHandlers(dispatch: React.Dispatch<ActionTypes>) {
           : { templists: [] };
 
         const templistExists = existingData.templists.some(
-          (t) => t.templistId === templistId,
+          (t) => t.templistULID === templistULID,
         );
 
         const updatedTemplists = templistExists
           ? existingData.templists.map((t) =>
-              t.templistId === templistId ? { ...t, items: updatedItems } : t,
+              t.templistULID === templistULID ? { ...t, items: updatedItems } : t,
             )
           : [
               ...existingData.templists,
-              { templistId, items: updatedItems } as Templist,
+              { templistULID, items: updatedItems } as Templist,
             ];
 
         localStorage.setItem(
@@ -53,11 +46,11 @@ export function useTemplistHandlers(dispatch: React.Dispatch<ActionTypes>) {
 
         dispatch({
           type: "UPDATE_ITEMS",
-          templistId,
+          templistULID,
           newItems: updatedItems,
         });
 
-        toast.success(`Templist (id: ${templistId}) successfully saved!`);
+        toast.success(`Templist (ULID: ${templistULID}) successfully saved!`);
       } catch (error) {
         toast.error(`Error saving templists: ${error}`);
       }
@@ -66,16 +59,16 @@ export function useTemplistHandlers(dispatch: React.Dispatch<ActionTypes>) {
   );
 
   const handleAddTemplist = () => {
-    const newId = ++nextId.current;
+    const newId = ulid();
     const newTemplist: Templist = {
-      templistId: newId,
+      templistULID: newId,
       items: [],
     };
     dispatch({ type: "ADD_TEMPLIST", newTemplist });
   };
 
-  const handleDelete = (templistId: number) => {
-    dispatch({ type: "REMOVE_TEMPLIST", templistId });
+  const handleDelete = (templistULID: string) => {
+    dispatch({ type: "REMOVE_TEMPLIST", templistULID });
   };
 
   return {

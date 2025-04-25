@@ -13,14 +13,14 @@ import formatTimestamp from "@/lib/utils/dateUtils";
 import { TemplistItem } from "@/types/templist";
 
 interface TemplistCardProps {
-  templistId: number;
+  templistULID: string;
   items: TemplistItem[];
   onSave: (updatedItems: TemplistItem[]) => void;
   onDelete: () => void;
 }
 
 export const TemplistCard: React.FC<TemplistCardProps> = ({
-  templistId,
+  templistULID,
   items: initialItems,
   onSave,
   onDelete,
@@ -33,7 +33,7 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
     deleteItemFromList,
     toggleItemComplete,
     updateItemText,
-  } = useTaskList(initialItems, templistId);
+  } = useTaskList(initialItems, templistULID || "");
 
   // Instantiate the add form hook, passing the adder function from useTaskList
   const { newItemText, setNewItemText, submitNewItem } = useAddItem({
@@ -68,8 +68,8 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
       <CardHeader>
         <CardTitle className="text-2xl font-bold">
           <div className="flex justify-between">
-            <div className="flex-1" id={`templist${templistId}`}>
-              Templist {templistId > 1 ? `(id: ${templistId})` : ""}
+            <div className="flex-1" id={templistULID}>
+              Templist
             </div>
             <Button variant="ghost" size="icon" onClick={handleDelete}>
               <X className="h-4 w-4" />

@@ -7,17 +7,22 @@ export function TemplistReducer(
 ): Templist[] {
   switch (action.type) {
     case "SET_INITIAL_STATE":
-      return [...action.templists].sort((a, b) => a.templistId - b.templistId);
+      return [...action.templists].sort((a, b) =>
+        a.templistULID.localeCompare(b.templistULID),
+      );
+
     case "UPDATE_ITEMS":
       return state.map((t) =>
-        t.templistId === action.templistId
+        t.templistULID === action.templistULID
           ? { ...t, items: action.newItems }
           : t,
       );
     case "ADD_TEMPLIST":
-      if (state.some((t) => t.templistId === action.newTemplist.templistId)) {
+      if (
+        state.some((t) => t.templistULID === action.newTemplist.templistULID)
+      ) {
         console.warn(
-          `Templist with ID ${action.newTemplist.templistId} already exists.`,
+          `Templist with ID ${action.newTemplist.templistULID} already exists.`,
         );
         return state;
       }
@@ -25,14 +30,14 @@ export function TemplistReducer(
       return [...state, action.newTemplist];
     case "REMOVE_TEMPLIST":
       const templistToRemove = state.find(
-        (t) => t.templistId === action.templistId,
+        (t) => t.templistULID === action.templistULID,
       );
       if (!templistToRemove) {
         console.warn(
-          `Templist with ID ${action.templistId} not found for removal.`,
+          `Templist with ID ${action.templistULID} not found for removal.`,
         );
 
-        throw Error(`Templist of id ${action.templistId} not found.`);
+        throw Error(`Templist of id ${action.templistULID} not found.`);
       }
       const currentSavedLists = localStorage.getItem("Templists");
       if (currentSavedLists) {
@@ -41,7 +46,7 @@ export function TemplistReducer(
             templists: Templist[];
           };
           const updatedTemplists = parsedData.templists.filter(
-            (t) => t.templistId !== action.templistId,
+            (t) => t.templistULID !== action.templistULID,
           );
           localStorage.setItem(
             "Templists",
@@ -52,7 +57,7 @@ export function TemplistReducer(
         }
       }
 
-      return state.filter((t) => t.templistId !== action.templistId);
+      return state.filter((t) => t.templistULID !== action.templistULID);
     default:
       throw Error("Unknown action.");
   }
