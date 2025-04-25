@@ -3,14 +3,14 @@
 import { Save, Plus, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import ConditionalTimestamp from "@/components/ConditionalTimestamp";
-import TemplistItemMap from "@/components/ItemMap";
-import AlertWithDialog from "@/components/ui/alert";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/templist/card";
+import ConditionalTimestamp from "@/components/ui/templist/ConditionalTimestamp";
+import TemplistItemMap from "@/components/ui/templist/ItemMap";
+import AlertWithDialog from "@/components/ui/templist/alert";
 
-import { useTaskList } from "@/hooks/useTaskList";
-import { useAddItem } from "@/hooks/useAddItem";
-import { useEditItemState } from "@/hooks/useEditItemState";
+import { useTemplist } from "@/hooks/templist/useTemplist";
+import { useAddItem } from "@/hooks/templist/useAddItem";
+import { useEditItemState } from "@/hooks/templist/useEditItemState";
 import formatTimestamp from "@/lib/utils/dateUtils";
 
 import { TemplistItem } from "@/types/templist";
@@ -35,7 +35,7 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
     deleteItemFromList,
     toggleItemComplete,
     updateItemText,
-  } = useTaskList(initialItems, templistULID || "");
+  } = useTemplist(initialItems, templistULID || "");
 
   const { newItemText, setNewItemText, submitNewItem } = useAddItem({
     onAddItem: addItemToList,
@@ -54,7 +54,7 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
 
   // --- Save Button Handler ---
   const handleSave = () => {
-    onSave(localItems); // Use the current items from useTaskList
+    onSave(localItems); // Use the current items from useTemplist
   };
 
   const handleDelete = () => {

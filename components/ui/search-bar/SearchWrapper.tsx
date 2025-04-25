@@ -1,7 +1,7 @@
 import React from "react";
 
-import SearchBar from "@/components/ui/search";
-import { CommandMenu } from "@/components/ui/command-menu";
+import SearchBar from "@/components/ui/search-bar/search";
+import { CommandMenu } from "@/components/ui/search-bar/command-menu";
 import { Templist } from "@/types/templist";
 
 interface Props {

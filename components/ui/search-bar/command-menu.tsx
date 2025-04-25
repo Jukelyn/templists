@@ -7,7 +7,7 @@ import {
   CommandList,
   CommandGroup,
   CommandItem,
-} from "@/components/ui/command";
+} from "@/components/ui/search-bar/command";
 
 import { Templist } from "@/types/templist";
 import Link from "next/link";

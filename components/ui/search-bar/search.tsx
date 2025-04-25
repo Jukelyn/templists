@@ -2,7 +2,7 @@ import {
   Command,
   CommandInput,
   CommandShortcut,
-} from "@/components/ui/command";
+} from "@/components/ui/search-bar/command";
 
 interface Props {
   handleClick: () => void;

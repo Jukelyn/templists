@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useTemplistContext } from "@/components/TemplistContext";
+import { useTemplistContext } from "@/components/ui/templist/TemplistContext";
 
 import {
   Sidebar,
@@ -13,7 +13,7 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
   SidebarRail,
-} from "@/components/ui/sidebar";
+} from "@/components/ui/sidebar/sidebar";
 import { Download } from "lucide-react";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {

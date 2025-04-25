@@ -1,11 +1,11 @@
 "use client";
 
-import { useTemplistContext } from "@/components/TemplistContext";
-import { TemplistCard } from "@/components/TemplistCard";
+import { useTemplistContext } from "@/components/ui/templist/TemplistContext";
+import { TemplistCard } from "@/components/ui/templist/TemplistCard";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { SidebarTrigger } from "@/components/ui/sidebar";
-import TemplistSearchWrapper from "@/components/SearchWrapper";
+import { SidebarTrigger } from "@/components/ui/sidebar/sidebar";
+import TemplistSearchWrapper from "@/components/ui/search-bar/SearchWrapper";
 
 export default function ChecklistApp() {
   const { templistCards, handleSave, handleAddTemplist, handleDelete } =

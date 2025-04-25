@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { TemplistItem } from "@/types/templist";
 import getItemId from "@/lib/utils/getItemId";
 
-interface UseTaskListResult {
+interface UseTemplistResult {
   items: TemplistItem[];
   lastUpdated: Date | null;
   addItemToList: (text: string) => void; // Accepts text, generates ID internally
@@ -11,10 +11,10 @@ interface UseTaskListResult {
   updateItemText: (id: string, newText: string) => void;
 }
 
-export function useTaskList(
+export function useTemplist(
   initialItems: TemplistItem[],
   templistULID: string,
-): UseTaskListResult {
+): UseTemplistResult {
   const [items, setItems] = useState<TemplistItem[]>(initialItems);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
 
