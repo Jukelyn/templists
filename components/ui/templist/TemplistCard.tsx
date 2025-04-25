@@ -3,7 +3,12 @@
 import { Save, Plus, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/templist/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/templist/card";
 import ConditionalTimestamp from "@/components/ui/templist/ConditionalTimestamp";
 import TemplistItemMap from "@/components/ui/templist/ItemMap";
 import AlertWithDialog from "@/components/ui/templist/alert";
@@ -71,12 +76,18 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
             <div className="flex-1" id={templistULID}>
               Templist
             </div>
-            <AlertWithDialog
-              handleOnClick={handleDelete}
-              templistULID={templistULID}
-            >
-              <X className="h-4 w-4" />
-            </AlertWithDialog>
+            {localItems.length > 0 ? (
+              <AlertWithDialog
+                handleOnClick={handleDelete}
+                templistULID={templistULID}
+              >
+                <X className="h-4 w-4" />
+              </AlertWithDialog>
+            ) : (
+              <Button variant="ghost" size="icon" onClick={handleDelete}>
+                <X className="h-4 w-4" />
+              </Button>
+            )}
           </div>
         </CardTitle>
       </CardHeader>
