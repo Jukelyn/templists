@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 import { Save, Plus, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -75,23 +77,39 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
   };
 
   const displayTimestamp = formatTimestamp(lastUpdated);
+  const [isEditingTitle, setIsEditingTitle] = useState(false);
 
   return (
     <Card className="mx-auto mt-4 w-full max-w-md">
       <CardHeader>
         <CardTitle className="text-2xl font-bold">
-          <div className="flex justify-between">
-            <CardTitle className="text-2xl font-bold">
-              <div className="flex-1" id={ulid}>
+          <div className="flex items-center justify-between">
+            <div className="flex-1" id={ulid}>
+              {isEditingTitle ? (
                 <TitleInput
                   type="text"
                   value={title}
                   onChange={handleTitleInputChange}
-                  placeholder="Enter title"
-                  className="h-10 text-2xl"
+                  onBlur={() => setIsEditingTitle(false)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") e.currentTarget.blur();
+                    if (e.key === "Escape") setIsEditingTitle(false);
+                  }}
+                  className="text-2xl font-bold"
                 />
-              </div>
-            </CardTitle>
+              ) : (
+                <span
+                  className="cursor-text text-2xl font-bold"
+                  onClick={() => setIsEditingTitle(true)}
+                >
+                  {title || (
+                    <span className="text-muted-foreground italic">
+                      Click to name
+                    </span>
+                  )}
+                </span>
+              )}
+            </div>
             {localItems.length > 0 ? (
               <AlertWithDialog handleOnClick={handleDelete} ulid={ulid}>
                 <X className="h-4 w-4" />
