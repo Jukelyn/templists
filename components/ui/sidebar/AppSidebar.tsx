@@ -14,6 +14,7 @@ import {
   SidebarMenuButton,
   SidebarRail,
 } from "@/components/ui/sidebar/sidebar";
+import Link from "next/link";
 import { Download } from "lucide-react";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -54,9 +55,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               {savedTemplists.map((item) => (
                 <SidebarMenuItem key={item.ulid}>
                   <SidebarMenuButton asChild>
-                    <button>
-                      <span>ULID: {item.ulid}</span>
-                    </button>
+                    <Link href={`#${item.ulid}`}>
+                      <span>{item.title}</span>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
