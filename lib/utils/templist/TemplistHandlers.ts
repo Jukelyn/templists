@@ -148,7 +148,6 @@ export function useTemplistHandlers(
 
   const handleTitleChange = useCallback(
     (ulid: string, newTitle: string) => {
-      let oldTitle: string = "";
       try {
         // ALWAYS dispatch action to update the working state (templistCards).
         dispatch({
@@ -172,7 +171,6 @@ export function useTemplistHandlers(
         );
 
         if (templistIndex > -1) {
-          oldTitle = existingTemplistsArray[templistIndex].title;
           const updatedTemplistsArray = existingTemplistsArray.map(
             (t, index) =>
               index === templistIndex ? { ...t, title: newTitle } : t,
@@ -189,8 +187,6 @@ export function useTemplistHandlers(
             `Templist with ULID ${ulid} not found in localStorage. Title updated only in working state.`,
           );
         }
-
-        toast.success(`Templist "${oldTitle}" title updated to "${newTitle}"!`);
       } catch (error) {
         toast.error(`Error updating templist title: ${error}`);
         console.error("Error updating templist title:", error);
