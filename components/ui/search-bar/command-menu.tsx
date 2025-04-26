@@ -43,9 +43,7 @@ export function CommandMenu({ templists, open, setOpen }: CommandMenuProps) {
               className="w-full"
               onClick={() => setOpen(!open)}
             >
-              <CommandItem key={templist.ulid}>
-                Templist (ULID: {templist.ulid})
-              </CommandItem>
+              <CommandItem key={templist.ulid}>{templist.title}</CommandItem>
             </Link>
           ))}
         </CommandGroup>

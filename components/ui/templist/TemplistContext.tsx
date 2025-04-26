@@ -12,6 +12,7 @@ interface TemplistContextType {
   handleSave: (ulid: string, items: TemplistItem[]) => void;
   handleAddTemplist: () => void;
   handleDelete: (ulid: string) => void;
+  handleTitleChange: (ulid: string, newTitle: string) => void;
 }
 
 const TemplistContext = createContext<TemplistContextType | null>(null);

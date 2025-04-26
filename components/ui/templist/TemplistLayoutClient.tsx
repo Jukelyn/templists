@@ -22,8 +22,13 @@ export default function TemplistLayoutClient({
   const isDataLoaded = useRef(false);
 
   // Pass both dispatch and setSavedTemplists to the handlers hook
-  const { handleSave, handleAddTemplist, handleDelete, initializeTemplists } =
-    useTemplistHandlers(dispatch, setSavedTemplists);
+  const {
+    handleSave,
+    handleAddTemplist,
+    handleDelete,
+    initializeTemplists,
+    handleTitleChange,
+  } = useTemplistHandlers(dispatch, setSavedTemplists, templistCards);
 
   // Initialize state from localStorage on the initial client render
   useEffect(() => {
@@ -42,6 +47,7 @@ export default function TemplistLayoutClient({
     handleSave,
     handleAddTemplist,
     handleDelete,
+    handleTitleChange,
   };
 
   return (

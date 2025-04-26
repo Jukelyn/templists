@@ -8,8 +8,13 @@ import { SidebarTrigger } from "@/components/ui/sidebar/sidebar";
 import TemplistSearchWrapper from "@/components/ui/search-bar/SearchWrapper";
 
 export default function ChecklistApp() {
-  const { templistCards, handleSave, handleAddTemplist, handleDelete } =
-    useTemplistContext();
+  const {
+    templistCards,
+    handleSave,
+    handleAddTemplist,
+    handleDelete,
+    handleTitleChange,
+  } = useTemplistContext();
 
   return (
     <>
@@ -32,6 +37,9 @@ export default function ChecklistApp() {
               items={card.items}
               onSave={(updatedItems) => handleSave(card.ulid, updatedItems)}
               onDelete={() => handleDelete(card.ulid)}
+              onTitleChange={(newTitle) =>
+                handleTitleChange(card.ulid, newTitle)
+              }
             />
           ))}
         </div>

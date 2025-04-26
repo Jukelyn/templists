@@ -26,6 +26,7 @@ interface TemplistCardProps {
   items: TemplistItem[];
   onSave: (updatedItems: TemplistItem[]) => void;
   onDelete: () => void;
+  onTitleChange: (newTitle: string) => void;
 }
 
 export const TemplistCard: React.FC<TemplistCardProps> = ({
@@ -34,6 +35,7 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
   items: initialItems,
   onSave,
   onDelete,
+  onTitleChange,
 }) => {
   const {
     items: localItems, // Renamed from 'items' to avoid conflict
@@ -59,13 +61,16 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
     onSaveEdit: updateItemText,
   });
 
-  // --- Save Button Handler ---
   const handleSave = () => {
     onSave(localItems); // Use the current items from useTemplist
   };
 
   const handleDelete = () => {
     onDelete();
+  };
+
+  const handleTitleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onTitleChange(e.target.value);
   };
 
   const displayTimestamp = formatTimestamp(lastUpdated);
@@ -75,9 +80,17 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
       <CardHeader>
         <CardTitle className="text-2xl font-bold">
           <div className="flex justify-between">
-            <div className="flex-1" id={ulid}>
-              {title ? title : `Templist ${ulid.slice(-5)}`}
-            </div>
+            <CardTitle className="text-2xl font-bold">
+              <div className="flex-1" id={ulid}>
+                <Input
+                  type="text"
+                  value={title}
+                  onChange={handleTitleInputChange}
+                  placeholder="Enter title"
+                  className="h-8"
+                />
+              </div>
+            </CardTitle>
             {localItems.length > 0 ? (
               <AlertWithDialog handleOnClick={handleDelete} ulid={ulid}>
                 <X className="h-4 w-4" />
