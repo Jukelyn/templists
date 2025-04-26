@@ -1,9 +1,9 @@
 ---
-name: Docker Deploy
+name: Docker Build
 
 on:
   workflow_run:
-    workflows: ["Docker Build"]
+    workflows: ["CI-SFTP"]
     types:
       - completed
 
@@ -22,14 +22,15 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > /tmp/private_key.pem
           chmod 600 /tmp/private_key.pem
 
-      - name: Restart Docker Container
+      - name: Build Docker Image
         run: |
           ssh -i /tmp/private_key.pem \
             -o StrictHostKeyChecking=no \
+            -o ServerAliveInterval=60 \
             -p ${{ secrets.SSH_SERVER_PORT }} \
-             ${{ secrets.SSH_USER }}@${{ secrets.SSH_SERVER }} \
-                  'cd ${{ secrets.REMOTE_PATH }} && \
-                  docker compose up -d'
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_SERVER }} \
+            'cd ${{ secrets.REMOTE_PATH }} && \
+            docker compose build'
 
       - name: Clean up SSH private key
         run: |
