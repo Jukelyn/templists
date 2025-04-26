@@ -140,7 +140,7 @@ export function useTemplistHandlers(
     const newId = ulid();
     const newTemplist: Templist = {
       ulid: newId,
-      title: `Templist ${newId.slice(-5)}`,
+      title: "",  // Don't set a default title
       items: [],
     };
     dispatch({ type: "ADD_TEMPLIST", newTemplist });
