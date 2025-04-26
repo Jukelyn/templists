@@ -12,6 +12,7 @@ import {
 import ConditionalTimestamp from "@/components/ui/templist/ConditionalTimestamp";
 import TemplistItemMap from "@/components/ui/templist/ItemMap";
 import AlertWithDialog from "@/components/ui/templist/alert";
+import { TitleInput } from "@/components/ui/templist/TitleInput";
 
 import { useTemplist } from "@/hooks/templist/useTemplist";
 import { useAddItem } from "@/hooks/templist/useAddItem";
@@ -82,12 +83,12 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
           <div className="flex justify-between">
             <CardTitle className="text-2xl font-bold">
               <div className="flex-1" id={ulid}>
-                <Input
+                <TitleInput
                   type="text"
                   value={title}
                   onChange={handleTitleInputChange}
                   placeholder="Enter title"
-                  className="h-8"
+                  className="h-10 text-2xl"
                 />
               </div>
             </CardTitle>
