@@ -14,17 +14,25 @@ import {
   SidebarMenuButton,
   SidebarRail,
 } from "@/components/ui/sidebar/sidebar";
+
+import { toast } from "sonner";
 import Link from "next/link";
-import { Download, Grid2x2, Rows2 } from "lucide-react";
+import { Download, Trash, Grid2x2, Rows2 } from "lucide-react";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   // Use the context hook to get the saved templists state
-  const { savedTemplists } = useTemplistContext();
+  const { savedTemplists, setSavedTemplists } = useTemplistContext();
+
+  function handleClear() {
+    setSavedTemplists([]);
+    localStorage.removeItem("Templists");
+    toast.info("Saved templists cleared!");
+  }
 
   const titleCount: Record<string, number> = {};
 
   return (
-    <Sidebar side="right" {...props} className="w-84">
+    <Sidebar collapsible={"offcanvas"} side="right" {...props} className="w-84">
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>Options</SidebarGroupLabel>
@@ -48,10 +56,19 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
+                  <button onClick={handleClear}>
+                    <Trash className="h-4 w-4" />
+                    <span>Clear All Saved Templists</span>
+                  </button>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
                   <button>
+                    {/* on click, toggle icon and shown text */}
                     {/* Change which of these show based on current layout */}
-                    {/* <Rows2 className="h-4 w-4" />
-                    <span>Switch to row layout</span> */}
+                    <Rows2 className="h-4 w-4" />
+                    {/* <span>Switch to row layout</span> */}
                     <Grid2x2 className="h-4 w-4" />
                     <span>Switch to grid layout</span>
                   </button>
