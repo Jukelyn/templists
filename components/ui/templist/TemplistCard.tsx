@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 import { Save, Plus, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -79,6 +79,13 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
   const displayTimestamp = formatTimestamp(lastUpdated);
   const [isEditingTitle, setIsEditingTitle] = useState(false);
 
+  const titleInputRef = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    if (isEditingTitle && titleInputRef.current) {
+      titleInputRef.current.focus();
+    }
+  }, [isEditingTitle]);
+
   return (
     <Card className="mx-auto mt-4 w-full max-w-md">
       <CardHeader>
@@ -87,12 +94,14 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
             <div className="flex-1" id={ulid}>
               {isEditingTitle ? (
                 <TitleInput
+                  ref={titleInputRef}
                   type="text"
                   value={title}
                   onChange={handleTitleInputChange}
                   onKeyDown={(e) => {
-                    if (e.key === "Enter") setIsEditingTitle(false);
-                    if (e.key === "Escape") setIsEditingTitle(false);
+                    if (e.key === "Enter" || e.key === "Escape") {
+                      setIsEditingTitle(false);
+                    }
                   }}
                   className="text-2xl font-bold"
                 />
