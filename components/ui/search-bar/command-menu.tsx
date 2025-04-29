@@ -43,7 +43,11 @@ export function CommandMenu({ templists, open, setOpen }: CommandMenuProps) {
               className="w-full"
               onClick={() => setOpen(!open)}
             >
-              <CommandItem key={templist.ulid}>{templist.title}</CommandItem>
+              <CommandItem key={templist.ulid}>
+                {templist.title
+                  ? templist.title
+                  : `${templist.ulid.slice(-6)} (${templist.ulid})`}
+              </CommandItem>
             </Link>
           ))}
         </CommandGroup>
