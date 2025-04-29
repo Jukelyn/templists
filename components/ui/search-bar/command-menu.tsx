@@ -30,26 +30,40 @@ export function CommandMenu({ templists, open, setOpen }: CommandMenuProps) {
     return () => document.removeEventListener("keydown", down);
   }, [open, setOpen]);
 
+  const titleCount: Record<string, number> = {};
+
   return (
     <CommandDialog open={open} onOpenChange={setOpen}>
       <CommandInput placeholder="Search for a templist" />
       <CommandList>
         <CommandEmpty>No results found.</CommandEmpty>
         <CommandGroup>
-          {templists.map((templist) => (
-            <Link
-              href={`#${templist.ulid}`}
-              key={templist.ulid}
-              className="w-full"
-              onClick={() => setOpen(!open)}
-            >
-              <CommandItem key={templist.ulid}>
-                {templist.title
-                  ? templist.title
-                  : `${templist.ulid.slice(-6)} (${templist.ulid})`}
-              </CommandItem>
-            </Link>
-          ))}
+          {templists.map((templist) => {
+            let displayTitle: string;
+
+            if (templist.title === "") {
+              displayTitle = `${templist.ulid.slice(-6)} (${templist.ulid})`;
+            } else {
+              if (titleCount[templist.title]) {
+                titleCount[templist.title]++;
+                displayTitle = `${templist.title} (${titleCount[templist.title]})`;
+              } else {
+                titleCount[templist.title] = 1;
+                displayTitle = templist.title;
+              }
+            }
+
+            return (
+              <Link
+                href={`#${templist.ulid}`}
+                key={templist.ulid}
+                className="w-full"
+                onClick={() => setOpen(!open)}
+              >
+                <CommandItem>{displayTitle}</CommandItem>
+              </Link>
+            );
+          })}
         </CommandGroup>
       </CommandList>
     </CommandDialog>
