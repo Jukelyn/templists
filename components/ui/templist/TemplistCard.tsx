@@ -90,9 +90,8 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
                   type="text"
                   value={title}
                   onChange={handleTitleInputChange}
-                  onBlur={() => setIsEditingTitle(false)}
                   onKeyDown={(e) => {
-                    if (e.key === "Enter") e.currentTarget.blur();
+                    if (e.key === "Enter") setIsEditingTitle(false);
                     if (e.key === "Escape") setIsEditingTitle(false);
                   }}
                   className="text-2xl font-bold"
