@@ -15,7 +15,7 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar/sidebar";
 import Link from "next/link";
-import { Download } from "lucide-react";
+import { Download, Grid2x2, Rows2 } from "lucide-react";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   // Use the context hook to get the saved templists state
@@ -43,6 +43,17 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   <button>
                     <Download className="h-4 w-4" />
                     <span>Export Saved Templists</span>
+                  </button>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <button>
+                    {/* Change which of these show based on current layout */}
+                    {/* <Rows2 className="h-4 w-4" />
+                    <span>Switch to row layout</span> */}
+                    <Grid2x2 className="h-4 w-4" />
+                    <span>Switch to grid layout</span>
                   </button>
                 </SidebarMenuButton>
               </SidebarMenuItem>
