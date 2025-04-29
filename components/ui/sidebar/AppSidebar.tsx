@@ -21,6 +21,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   // Use the context hook to get the saved templists state
   const { savedTemplists } = useTemplistContext();
 
+  const titleCount: Record<string, number> = {};
+
   return (
     <Sidebar side="right" {...props} className="w-84">
       <SidebarContent>
@@ -52,15 +54,33 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarGroupContent>
             <SidebarMenu>
               {/* Use savedTemplists from the context */}
-              {savedTemplists.map((item) => (
-                <SidebarMenuItem key={item.ulid}>
-                  <SidebarMenuButton asChild>
-                    <Link href={`#${item.ulid}`}>
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              {savedTemplists.map((item) => {
+                let displayTitle = "";
+
+                // If there is no title, use the last 6 characters of the ULID
+                if (item.title === "") {
+                  displayTitle = item.ulid.slice(-6);
+                } else {
+                  // Count occurrences for non-empty titles
+                  if (titleCount[item.title]) {
+                    titleCount[item.title]++;
+                    displayTitle = `${item.title} (${titleCount[item.title]})`;
+                  } else {
+                    titleCount[item.title] = 1;
+                    displayTitle = item.title;
+                  }
+                }
+
+                return (
+                  <SidebarMenuItem key={item.ulid}>
+                    <SidebarMenuButton asChild>
+                      <Link href={`#${item.ulid}`}>
+                        <span>{displayTitle}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
