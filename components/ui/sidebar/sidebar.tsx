@@ -588,8 +588,21 @@ const SidebarSeparator = React.forwardRef<
 });
 SidebarSeparator.displayName = "SidebarSeparator";
 
+const SidebarFooter = React.forwardRef<
+  HTMLDivElement,
+  React.ComponentProps<"div">
+>(({ className, children }, ref) => {
+  return (
+    <div ref={ref} className={className}>
+      {children}
+    </div>
+  );
+});
+SidebarFooter.displayName = "SidebarFooter";
+
 export {
   Sidebar,
+  SidebarFooter,
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,

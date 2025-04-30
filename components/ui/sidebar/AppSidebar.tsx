@@ -13,6 +13,7 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
   SidebarRail,
+  SidebarFooter,
   useSidebar,
 } from "@/components/ui/sidebar/sidebar";
 import { toast } from "sonner";
@@ -25,6 +26,7 @@ import {
   Rows2,
   Grid2x2,
 } from "lucide-react";
+import Image from "next/image";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { setOpen } = useSidebar();
@@ -166,6 +168,36 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarFooter className="text-sidebar-foreground/70 mb-4 text-center text-sm">
+        <div>Jukelyn</div>
+        <Link
+          href={"https://github.com/Jukelyn"}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex justify-center"
+        >
+          <Image
+            alt="Github Badge"
+            src={
+              "https://img.shields.io/badge/github-%23171717.svg?style=for-the-badge&logo=github&logoColor=grey"
+            }
+            width={0}
+            height={0}
+            unoptimized
+            className="h-auto w-40"
+          />
+        </Link>
+        <p>
+          &copy; {new Date().getFullYear()}{" "}
+          <Link
+            href="https://www.gnu.org/licenses/gpl-3.0.html"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            GPL-3.0
+          </Link>
+        </p>
+      </SidebarFooter>
       <SidebarRail />
     </Sidebar>
   );
