@@ -47,8 +47,10 @@ export const TemplistProvider: React.FC<TemplistProviderProps> = ({
 
   // Function to switch layouts.
   const changeLayout = (newLayout: LayoutType) => {
-    setLayout(newLayout);
-    toast.success(`Layout changed to: ${newLayout}`);
+    if (newLayout !== layout) {
+      setLayout(newLayout);
+      toast.success(`Layout changed to: ${newLayout}`);
+    }
   };
 
   // Merge the passed-in value with the new layout state and function.
