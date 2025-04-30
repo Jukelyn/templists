@@ -25,8 +25,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   function handleClear() {
     setSavedTemplists([]);
+
     localStorage.removeItem("Templists");
-    toast.info("Saved templists cleared!");
+
+    toast.success("Saved templists cleared!");
   }
 
   const titleCount: Record<string, number> = {};
@@ -78,7 +80,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </SidebarGroupContent>
         </SidebarGroup>
         <SidebarGroup>
-          <SidebarGroupLabel>Saved Templists</SidebarGroupLabel>
+          {savedTemplists.length > 0 && (
+            <SidebarGroupLabel>Saved Templists</SidebarGroupLabel>
+          )}
           <SidebarGroupContent>
             <SidebarMenu>
               {/* Use savedTemplists from the context */}
