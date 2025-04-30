@@ -43,7 +43,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const titleCount: Record<string, number> = {};
 
   return (
-    <Sidebar collapsible={"offcanvas"} side="right" {...props} className="w-84">
+    <Sidebar
+      collapsible={"offcanvas"}
+      side="right"
+      {...props}
+      className="w-full md:w-84"
+    >
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>Options</SidebarGroupLabel>
