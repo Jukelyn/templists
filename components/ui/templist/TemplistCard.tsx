@@ -87,7 +87,7 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
   }, [isEditingTitle]);
 
   return (
-    <Card className="mx-auto mt-4 w-full max-w-md">
+    <Card className="mx-auto mb-4 w-full max-w-md">
       <CardHeader>
         <CardTitle className="text-2xl font-bold">
           <div className="flex items-center justify-between">
