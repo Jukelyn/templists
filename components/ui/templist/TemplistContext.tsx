@@ -4,7 +4,8 @@ import React, { createContext, useContext, ReactNode } from "react";
 import { Templist, TemplistItem } from "@/types/templist";
 import { ActionTypes } from "@/types/actions";
 
-export type LayoutType = "list" | "grid";
+// Extend the context type to include layout and toggleLayout.
+export type LayoutType = "list" | "grid" | "masonry";
 
 interface TemplistContextType {
   templistCards: Templist[];
@@ -16,7 +17,7 @@ interface TemplistContextType {
   handleDelete: (ulid: string) => void;
   handleTitleChange: (ulid: string, newTitle: string) => void;
   layout: LayoutType;
-  toggleLayout: () => void;
+  changeLayout: (newLayout: LayoutType) => void;
 }
 
 const TemplistContext = createContext<TemplistContextType | null>(null);
@@ -33,42 +34,27 @@ export const useTemplistContext = () => {
 
 interface TemplistProviderProps {
   children: ReactNode;
-  value: Omit<TemplistContextType, "layout" | "toggleLayout">;
+  value: Omit<TemplistContextType, "layout" | "changeLayout">;
 }
 
 export const TemplistProvider: React.FC<TemplistProviderProps> = ({
   children,
   value,
 }) => {
-  // Initialize layout state from localStorage or default to "list".
+  // Initialize layout state locally.
   const [layout, setLayout] = React.useState<LayoutType>("list");
 
-  React.useEffect(() => {
-    const storedLayout = localStorage.getItem("templistLayout");
-    if (storedLayout) {
-      setLayout(storedLayout as LayoutType);
-    }
-  }, []);
-
-  // Toggle function to switch layouts and save to localStorage.
-  const toggleLayout = () => {
-    setLayout((prev) => {
-      const newLayout = prev === "list" ? "grid" : "list";
-      localStorage.setItem("templistLayout", newLayout);
-      return newLayout;
-    });
+  // Function to switch layouts.
+  const changeLayout = (newLayout: LayoutType) => {
+    setLayout(newLayout);
   };
 
   // Merge the passed-in value with the new layout state and function.
   const extendedValue: TemplistContextType = {
     ...value,
     layout,
-    toggleLayout,
+    changeLayout,
   };
-
-  React.useEffect(() => {
-    localStorage.setItem("templistLayout", layout);
-  }, [layout]);
 
   React.useEffect(() => {
     const handleStorageChange = () => {

@@ -16,11 +16,16 @@ import {
 } from "@/components/ui/sidebar/sidebar";
 import { toast } from "sonner";
 import Link from "next/link";
-import { Download, Trash, Grid2x2, Rows2 } from "lucide-react";
+import { Download, Trash, LayoutPanelLeft, Rows2, Grid2x2 } from "lucide-react";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { savedTemplists, setSavedTemplists, toggleLayout, layout } =
-    useTemplistContext();
+  const {
+    templistCards,
+    savedTemplists,
+    setSavedTemplists,
+    changeLayout,
+    layout,
+  } = useTemplistContext();
 
   function handleClear() {
     setSavedTemplists([]);
@@ -61,23 +66,36 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   </button>
                 </SidebarMenuButton>
               </SidebarMenuItem>
-              <SidebarMenuItem className="hidden lg:block">
-                <SidebarMenuButton asChild>
-                  <button onClick={toggleLayout}>
-                    {layout === "grid" ? (
-                      <>
-                        <Rows2 className="h-4 w-4" />
-                        <span>Switch to list layout</span>
-                      </>
-                    ) : (
-                      <>
-                        <Grid2x2 className="h-4 w-4" />
-                        <span>Switch to grid layout</span>
-                      </>
-                    )}
-                  </button>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
+              {layout !== "list" && (
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild>
+                    <button onClick={() => changeLayout("list")}>
+                      <Rows2 className="h-4 w-4" />
+                      <span>Switch to list layout</span>
+                    </button>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              )}
+              {layout !== "grid" && (
+                <SidebarMenuItem className="hidden lg:block">
+                  <SidebarMenuButton asChild>
+                    <button onClick={() => changeLayout("grid")}>
+                      <Grid2x2 className="h-4 w-4" />
+                      <span>Switch to grid layout</span>
+                    </button>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              )}
+              {layout !== "masonry" && templistCards.length > 3 && (
+                <SidebarMenuItem className="hidden lg:block">
+                  <SidebarMenuButton asChild>
+                    <button onClick={() => changeLayout("masonry")}>
+                      <LayoutPanelLeft className="h-4 w-4" />
+                      <span>Switch to masonry layout</span>
+                    </button>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              )}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
