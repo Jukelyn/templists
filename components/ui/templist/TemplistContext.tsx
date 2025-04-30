@@ -45,10 +45,18 @@ export const TemplistProvider: React.FC<TemplistProviderProps> = ({
   // Initialize layout state locally.
   const [layout, setLayout] = React.useState<LayoutType>("list");
 
+  React.useEffect(() => {
+    const storedLayout = localStorage.getItem("templistLayout");
+    if (storedLayout) {
+      setLayout(storedLayout as LayoutType);
+    }
+  }, []);
+
   // Function to switch layouts.
   const changeLayout = (newLayout: LayoutType) => {
     if (newLayout !== layout) {
       setLayout(newLayout);
+      localStorage.setItem("templistLayout", newLayout);
       toast.success(`Layout changed to: ${newLayout}`);
     }
   };
