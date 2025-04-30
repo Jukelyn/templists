@@ -169,7 +169,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter className="text-sidebar-foreground/70 mb-4 text-center text-sm">
-        <div>Jukelyn</div>
+        <div>By Jukelyn</div>
+        <div className="-mb-1">&darr;</div>
         <Link
           href={"https://github.com/Jukelyn"}
           target="_blank"
