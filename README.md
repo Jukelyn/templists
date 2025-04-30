@@ -1,6 +1,8 @@
 # Templists
 
-Templists are just temporary checklists. I find myself need a checklist but I don't want to deal with keep them and I also don't like the look or bloat that a lot of other solutions offer. Templists are temporary checklists that you can allow to persist but are usually gone upon a refresh. A history of templists are stored, just in case.
+Templists are just temporary checklists. I find myself need a checklist but I don't want to deal with keep them and I also don't like the look or bloat that a lot of other solutions offer. Templists are temporary checklists that you can allow to persist but are usually gone upon a refresh. A history of templists are stored, just in case.*
+
+*Note: To be implemented (may not do so since I added a save option though.
 
 <div align="center">
 
