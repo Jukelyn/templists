@@ -61,7 +61,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   </button>
                 </SidebarMenuButton>
               </SidebarMenuItem>
-              <SidebarMenuItem>
+              <SidebarMenuItem className="hidden lg:block">
                 <SidebarMenuButton asChild>
                   <button onClick={toggleLayout}>
                     {layout === "grid" ? (
