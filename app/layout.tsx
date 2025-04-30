@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import { SidebarProvider } from "@/components/ui/sidebar/sidebar";
-
+import { TooltipProvider } from "@/components/ui/tooltip";
 import TemplistLayoutClient from "@/components/ui/templist/TemplistLayoutClient";
 
 const geistSans = Geist({
@@ -31,9 +31,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <SidebarProvider defaultOpen={false}>
-          <TemplistLayoutClient>{children}</TemplistLayoutClient>
-        </SidebarProvider>
+        <TooltipProvider>
+          <SidebarProvider defaultOpen={false}>
+            <TemplistLayoutClient>{children}</TemplistLayoutClient>
+          </SidebarProvider>
+        </TooltipProvider>
 
         <Toaster position="bottom-right" closeButton />
       </body>

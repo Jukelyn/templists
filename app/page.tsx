@@ -4,8 +4,8 @@ import { useTemplistContext } from "@/components/ui/templist/TemplistContext";
 import { TemplistCard } from "@/components/ui/templist/TemplistCard";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { SidebarTrigger } from "@/components/ui/sidebar/sidebar";
 import TemplistSearchWrapper from "@/components/ui/search-bar/SearchWrapper";
+import { SidebarTriggerWithToolTip } from "@/components/ui/tooltip";
 
 export default function ChecklistApp() {
   const {
@@ -20,7 +20,7 @@ export default function ChecklistApp() {
     <>
       <div className="min-h-screen p-6 md:p-4 lg:p-2 dark:bg-black">
         <div className="flex flex-col items-end">
-          <SidebarTrigger />
+          <SidebarTriggerWithToolTip />
         </div>
         <div className="flex flex-col items-center pt-6">
           {/* tf somebody gonna search for where there is nothing??? */}
