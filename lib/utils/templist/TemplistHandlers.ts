@@ -43,10 +43,6 @@ export function useTemplistHandlers(
             parseError,
           );
         }
-      } else {
-        console.log(
-          "No Templists found in localStorage. Initializing with empty array.",
-        );
       }
 
       dispatch({ type: "SET_INITIAL_STATE", templists: initialTemplists });
@@ -96,9 +92,6 @@ export function useTemplistHandlers(
           updatedTemplistsArray = existingTemplistsArray.map((t, index) =>
             index === templistIndex ? { ...t, items: updatedItems } : t,
           );
-          console.log(
-            `Updating existing templist (ULID: ${ulid}) items in localStorage.`,
-          );
         } else {
           // If the templist is NOT found in localStorage (it's a new one),
           // add the *entire* object from the current state.
@@ -106,9 +99,6 @@ export function useTemplistHandlers(
             ...existingTemplistsArray,
             currentTemplistInState,
           ];
-          console.log(
-            `Adding new templist (ULID: ${ulid}) to localStorage using state object.`,
-          );
         }
 
         // Save the modified array back to localStorage
