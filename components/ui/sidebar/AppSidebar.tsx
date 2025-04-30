@@ -1,7 +1,7 @@
 // AppSidebar.tsx
 "use client";
 
-import React from "react";
+import React, { useCallback } from "react";
 import { useTemplistContext } from "@/components/ui/templist/TemplistContext";
 import {
   Sidebar,
@@ -19,6 +19,13 @@ import Link from "next/link";
 import { Download, Trash, LayoutPanelLeft, Rows2, Grid2x2 } from "lucide-react";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const handleClick = useCallback(() => {
+    setTimeout(() => {
+      const offset = 40;
+      window.scrollBy({ top: -offset, behavior: "smooth" });
+    }, 100);
+  }, []);
+
   const {
     templistCards,
     savedTemplists,
@@ -125,7 +132,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 return (
                   <SidebarMenuItem key={item.ulid}>
                     <SidebarMenuButton asChild>
-                      <Link href={`#${item.ulid}`}>
+                      <Link href={`#${item.ulid}`} onClick={handleClick}>
                         <span>{displayTitle}</span>
                       </Link>
                     </SidebarMenuButton>
