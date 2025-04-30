@@ -4,6 +4,14 @@ import { toast } from "sonner";
 import { ActionTypes } from "@/types/actions";
 import { ulid } from "ulid";
 
+function getToastTitle(templist: Templist) {
+  const displayTitle = templist.title
+    ? `"${templist.title}"`
+    : templist.ulid.slice(-6);
+
+  return displayTitle;
+}
+
 export function useTemplistHandlers(
   dispatch: React.Dispatch<ActionTypes>,
   setSavedTemplists: React.Dispatch<React.SetStateAction<Templist[]>>,
@@ -124,7 +132,9 @@ export function useTemplistHandlers(
         // Explicitly update the saved state to reflect the new/updated lists in storage
         setSavedTemplists(updatedTemplistsArray);
 
-        toast.success(`Templist "${currentTemplistInState.title}" saved!`);
+        toast.success(
+          `Templist ${getToastTitle(currentTemplistInState)} saved!`,
+        );
       } catch (error) {
         toast.error(`Error saving templists: ${error}`);
         console.error("Error saving templists:", error);
@@ -140,10 +150,11 @@ export function useTemplistHandlers(
     const newId = ulid();
     const newTemplist: Templist = {
       ulid: newId,
-      title: "",  // Don't set a default title
+      title: "", // Don't set a default title
       items: [],
     };
     dispatch({ type: "ADD_TEMPLIST", newTemplist });
+    toast.success("New templist added!");
   }, [dispatch]);
 
   const handleTitleChange = useCallback(
