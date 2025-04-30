@@ -13,13 +13,23 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
   SidebarRail,
+  useSidebar,
 } from "@/components/ui/sidebar/sidebar";
 import { toast } from "sonner";
 import Link from "next/link";
-import { Download, Trash, LayoutPanelLeft, Rows2, Grid2x2 } from "lucide-react";
+import {
+  X,
+  Download,
+  Trash,
+  LayoutPanelLeft,
+  Rows2,
+  Grid2x2,
+} from "lucide-react";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const handleClick = useCallback(() => {
+  const { setOpen } = useSidebar();
+
+  const handleClickTemplist = useCallback(() => {
     setTimeout(() => {
       const offset = 40;
       window.scrollBy({ top: -offset, behavior: "smooth" });
@@ -50,6 +60,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       className="w-full md:w-84"
     >
       <SidebarContent>
+        <div className="m-4 mb-0 flex justify-end">
+          <button onClick={() => setOpen(false)}>
+            <X className="h-4 w-4" />
+          </button>
+        </div>
         <SidebarGroup>
           <SidebarGroupLabel>Options</SidebarGroupLabel>
           <SidebarGroupContent>
@@ -137,7 +152,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 return (
                   <SidebarMenuItem key={item.ulid}>
                     <SidebarMenuButton asChild>
-                      <Link href={`#${item.ulid}`} onClick={handleClick}>
+                      <Link
+                        href={`#${item.ulid}`}
+                        onClick={handleClickTemplist}
+                      >
                         <span>{displayTitle}</span>
                       </Link>
                     </SidebarMenuButton>

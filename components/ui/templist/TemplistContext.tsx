@@ -3,6 +3,7 @@
 import React, { createContext, useContext, ReactNode } from "react";
 import { Templist, TemplistItem } from "@/types/templist";
 import { ActionTypes } from "@/types/actions";
+import { toast } from "sonner";
 
 // Extend the context type to include layout and toggleLayout.
 export type LayoutType = "list" | "grid" | "masonry";
@@ -47,6 +48,7 @@ export const TemplistProvider: React.FC<TemplistProviderProps> = ({
   // Function to switch layouts.
   const changeLayout = (newLayout: LayoutType) => {
     setLayout(newLayout);
+    toast.success(`Layout changed to: ${newLayout}`);
   };
 
   // Merge the passed-in value with the new layout state and function.
