@@ -23,11 +23,13 @@ jobs:
     name: Run ESLint
     steps:
       - uses: actions/checkout@v4
-      - run: npm run lint
+      - uses: ./.github/actions/setup
+      - run: pnpm run lint
 
   tsc:
     runs-on: ubuntu-latest
     name: Run Typechecker
     steps:
       - uses: actions/checkout@v4
-      - run: npm run typecheck
+      - uses: ./.github/actions/setup
+      - run: pnpm run typecheck
