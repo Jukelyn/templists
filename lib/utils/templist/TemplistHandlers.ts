@@ -32,9 +32,6 @@ export function useTemplistHandlers(
 
           if (parsedData && Array.isArray(parsedData.templists)) {
             initialTemplists = parsedData.templists;
-            console.log(
-              `Successfully loaded ${initialTemplists.length} templists from localStorage.`,
-            );
           } else {
             console.warn(
               "LocalStorage data found but is not in the expected { templists: [...] } format. Initializing with empty array.",
