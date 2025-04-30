@@ -5,7 +5,7 @@ import { TemplistCard } from "@/components/ui/templist/TemplistCard";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import TemplistSearchWrapper from "@/components/ui/search-bar/SearchWrapper";
-import { SidebarTriggerWithToolTip } from "@/components/ui/tooltip";
+import SidebarToolbar from "@/components/ui/sidebar/sidebar-toolbar";
 
 export default function ChecklistApp() {
   const {
@@ -19,8 +19,8 @@ export default function ChecklistApp() {
 
   return (
     <div className="min-h-screen p-6 md:p-4 lg:p-2 dark:bg-black">
-      <div className="flex flex-col items-end">
-        <SidebarTriggerWithToolTip />
+      <div className="flex w-full justify-end">
+        <SidebarToolbar className="pr-10" />
       </div>
       {templistCards.length > 0 && (
         <div className="flex flex-col items-center pt-6">
