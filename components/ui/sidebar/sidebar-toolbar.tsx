@@ -35,51 +35,49 @@ function SidebarTriggerWithToolTip() {
 export default function SidebarToolbar({
   className,
 }: React.HTMLAttributes<HTMLDivElement>) {
-  const { changeLayout, layout } = useTemplistContext();
+  const { templistCards, changeLayout, layout } = useTemplistContext();
 
   function handleClick(layout: LayoutType) {
     changeLayout(layout);
   }
 
+  const activeButtonStyle = "text-card bg-gray-300";
+
   return (
     <div className={cn("mt-4 flex items-center justify-end", className)}>
-      <div className="ml-2 flex flex-row" aria-label="Layout Selector">
-        <Button
-          variant="ghost"
-          className={cn(
-            "text-mauve11 hover:bg-violet3 hover:text-violet11 focus:shadow-violet7 data-[state=on]:bg-violet5 data-[state=on]:text-violet11 ml-0.5 inline-flex h-[25px] flex-shrink-0 flex-grow-0 basis-auto items-center justify-center rounded bg-black px-[5px] text-[13px] leading-none outline-none first:ml-0 focus:relative focus:shadow-[0_0_0_2px]",
-            layout === "list" &&
-              "bg-violet5 text-violet11 hover:bg-violet5 hover:text-violet11",
-          )}
-          aria-label="List Layout"
-          onClick={() => handleClick("list")}
+      <div className="hidden md:block">
+        <div
+          className="mr-2 flex flex-row rounded-lg border-2 border-current"
+          aria-label="Layout Selector"
         >
-          <Rows2 className="h-4 w-4" />
-        </Button>
-        <Button
-          variant="ghost"
-          className={cn(
-            "text-mauve11 hover:bg-violet3 hover:text-violet11 focus:shadow-violet7 data-[state=on]:bg-violet5 data-[state=on]:text-violet11 ml-0.5 inline-flex h-[25px] flex-shrink-0 flex-grow-0 basis-auto items-center justify-center rounded bg-black px-[5px] text-[13px] leading-none outline-none focus:relative focus:shadow-[0_0_0_2px]",
-            layout === "grid" &&
-              "bg-violet5 text-violet11 hover:bg-violet5 hover:text-violet11",
-          )}
-          aria-label="Grid Layout"
-          onClick={() => handleClick("grid")}
-        >
-          <Grid2x2 className="h-4 w-4" />
-        </Button>
-        <Button
-          variant="ghost"
-          className={cn(
-            "text-mauve11 hover:bg-violet3 hover:text-violet11 focus:shadow-violet7 data-[state=on]:bg-violet5 data-[state=on]:text-violet11 ml-0.5 inline-flex h-[25px] flex-shrink-0 flex-grow-0 basis-auto items-center justify-center rounded bg-black px-[5px] text-[13px] leading-none outline-none focus:relative focus:shadow-[0_0_0_2px]",
-            layout === "masonry" &&
-              "bg-violet5 text-violet11 hover:bg-violet5 hover:text-violet11",
-          )}
-          aria-label="Masonry Layout"
-          onClick={() => handleClick("masonry")}
-        >
-          <LayoutPanelLeft className="h-4 w-4" />
-        </Button>
+          <Button
+            variant="ghost"
+            className={cn(layout === "list" && activeButtonStyle)}
+            aria-label="List Layout"
+            onClick={() => handleClick("list")}
+          >
+            <Rows2 className="h-4 w-4" />
+          </Button>
+          <Button
+            variant="ghost"
+            className={cn(layout === "grid" && activeButtonStyle)}
+            aria-label="Grid Layout"
+            onClick={() => handleClick("grid")}
+          >
+            <Grid2x2 className="h-4 w-4" />
+          </Button>
+          <Button
+            variant="ghost"
+            className={cn(
+              templistCards.length > 3 ? "hidden lg:block" : "hidden",
+              layout === "masonry" && activeButtonStyle,
+            )}
+            aria-label="Masonry Layout"
+            onClick={() => handleClick("masonry")}
+          >
+            <LayoutPanelLeft className="h-4 w-4" />
+          </Button>
+        </div>
       </div>
       <SidebarTriggerWithToolTip />
     </div>

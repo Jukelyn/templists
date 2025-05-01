@@ -62,39 +62,17 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       className="w-full md:w-84"
     >
       <SidebarContent>
-        <div className="m-4 mb-0 flex justify-end">
+        <div className="m-6 mb-0 flex justify-end">
           <button onClick={() => setOpen(false)}>
-            <X className="h-4 w-4" />
+            <X className="h-6 w-6" />
           </button>
         </div>
         <SidebarGroup>
-          <SidebarGroupLabel>Options</SidebarGroupLabel>
+          <SidebarGroupLabel className="hidden md:flex">
+            Layout Options
+          </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <button>
-                    <Download className="h-4 w-4" />
-                    <span>Export All Templists</span>
-                  </button>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <button>
-                    <Download className="h-4 w-4" />
-                    <span>Export Saved Templists</span>
-                  </button>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <button onClick={handleClear}>
-                    <Trash className="h-4 w-4" />
-                    <span>Clear All Saved Templists</span>
-                  </button>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
               {layout !== "list" && (
                 <SidebarMenuItem>
                   <SidebarMenuButton asChild>
@@ -106,7 +84,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 </SidebarMenuItem>
               )}
               {layout !== "grid" && (
-                <SidebarMenuItem className="hidden lg:block">
+                <SidebarMenuItem className="hidden md:block">
                   <SidebarMenuButton asChild>
                     <button onClick={() => changeLayout("grid")}>
                       <Grid2x2 className="h-4 w-4" />
