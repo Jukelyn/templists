@@ -3,6 +3,7 @@
 
 import React, { useCallback } from "react";
 import { useTemplistContext } from "@/components/ui/templist/TemplistContext";
+import AlertWithDialog from "@/components/ui/templist/alert";
 import {
   Sidebar,
   SidebarContent,
@@ -21,6 +22,8 @@ import Link from "next/link";
 import {
   X,
   Download,
+  Save,
+  SaveOff,
   Trash,
   LayoutPanelLeft,
   Rows2,
@@ -41,15 +44,42 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const {
     templistCards,
     savedTemplists,
+    handleDelete,
     setSavedTemplists,
     changeLayout,
     layout,
   } = useTemplistContext();
 
-  function handleClear() {
+  function handleSaveAll() {
+    setSavedTemplists(templistCards);
+    localStorage.setItem(
+      "Templists",
+      JSON.stringify({ templists: templistCards }),
+    );
+
+    toast.success("All templists have been saved!");
+  }
+
+  function handleUnsaveAll() {
     setSavedTemplists([]);
     localStorage.removeItem("Templists");
     toast.success("Saved templists cleared!");
+  }
+
+  function deleteAll() {
+    templistCards.forEach((card) => {
+      handleDelete(card.ulid);
+    });
+
+    toast.success("All templists have been deleted!");
+  }
+
+  function deleteAllSaved() {
+    savedTemplists.forEach((card) => {
+      handleDelete(card.ulid);
+    });
+
+    toast.success("All saved templists have been deleted!");
   }
 
   const titleCount: Record<string, number> = {};
@@ -105,6 +135,65 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               )}
             </SidebarMenu>
           </SidebarGroupContent>
+        </SidebarGroup>
+        <SidebarGroup>
+          <SidebarGroupLabel>Templists Options</SidebarGroupLabel>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild>
+                <button>
+                  <Download className="h-4 w-4" />
+                  <span>Export All Templists</span>
+                </button>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild>
+                <button>
+                  <Download className="h-4 w-4" />
+                  <span>Export Saved Templists</span>
+                </button>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild>
+                <button onClick={handleSaveAll}>
+                  <Save className="h-4 w-4" />
+                  <span>Save All Templists</span>
+                </button>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild>
+                <AlertWithDialog
+                  handleOnClick={deleteAll}
+                  message="This action cannot be undone. This will permanently delete all templists."
+                >
+                  <Trash className="h-4 w-4" />
+                  Delete All Templists
+                </AlertWithDialog>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild>
+                <button onClick={handleUnsaveAll}>
+                  <SaveOff className="h-4 w-4" />
+                  <span>Unsave All Saved Templists</span>
+                </button>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild>
+                <AlertWithDialog
+                  handleOnClick={deleteAllSaved}
+                  message="This action cannot be undone. This will permanently delete all saved templists."
+                >
+                  <Trash className="h-4 w-4" />
+                  Delete All Saved Templists
+                </AlertWithDialog>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
         </SidebarGroup>
         <SidebarGroup>
           {savedTemplists.length > 0 && (
