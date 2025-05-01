@@ -5,7 +5,7 @@ import { TemplistCard } from "@/components/ui/templist/TemplistCard";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import TemplistSearchWrapper from "@/components/ui/search-bar/SearchWrapper";
-import SidebarToolbar from "@/components/ui/sidebar/sidebar-toolbar";
+import SidebarToolbar from "@/components/ui/sidebar-toolbar";
 
 export default function ChecklistApp() {
   const {
