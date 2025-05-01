@@ -103,15 +103,15 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
                       setIsEditingTitle(false);
                     }
                   }}
-                  className="text-2xl font-bold"
+                  className="block text-2xl font-bold"
                 />
               ) : (
                 <span
-                  className="cursor-text text-2xl font-bold"
+                  className="block w-full cursor-text text-2xl font-bold"
                   onClick={() => setIsEditingTitle(true)}
                 >
                   {title || (
-                    <span className="text-muted-foreground italic">
+                    <span className="text-muted-foreground block w-full italic">
                       Click to name
                     </span>
                   )}
