@@ -1,3 +1,6 @@
+"use client";
+
+import React from "react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -12,35 +15,42 @@ import {
 
 interface Props {
   handleOnClick: () => void;
-  ulid: string;
-  children: React.ReactNode;
+  message?: string;
+  ulid?: string;
+  children?: React.ReactNode;
 }
 
-export default function AlertWithDialog({
-  handleOnClick,
-  ulid,
-  children,
-}: Props) {
+const AlertWithDialog = React.forwardRef<
+  HTMLButtonElement,
+  Props & React.ButtonHTMLAttributes<HTMLButtonElement>
+>(function AlertWithDialog(
+  { handleOnClick, message, ulid, children, ...props },
+  ref,
+) {
   return (
-    <>
-      <AlertDialog>
-        <AlertDialogTrigger>{children}</AlertDialogTrigger>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-            <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete this
-              templist (ULID: {ulid}).
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={handleOnClick}>
-              Continue
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-    </>
+    <AlertDialog>
+      <AlertDialogTrigger ref={ref} {...props}>
+        {children}
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogDescription>
+            {message
+              ? message
+              : `This action cannot be undone. This will permanently delete this templist (ULID: ${ulid}).`}
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction onClick={handleOnClick}>
+            Continue
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   );
-}
+});
+AlertWithDialog.displayName = "AlertWithDialog";
+
+export default AlertWithDialog;
