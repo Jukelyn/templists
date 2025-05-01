@@ -1,7 +1,7 @@
 // AppSidebar.tsx
 "use client";
 
-import React, { useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import { useTemplistContext } from "@/components/ui/templist/TemplistContext";
 import AlertWithDialog from "@/components/ui/templist/alert";
 import {
@@ -31,6 +31,8 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 
+import { ExportDialog } from "@/components/ui/sidebar/ExportModal";
+
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { setOpen } = useSidebar();
 
@@ -49,6 +51,16 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     changeLayout,
     layout,
   } = useTemplistContext();
+
+  function handleExportSaved() {}
+
+  const [openDialog, setOpenDialog] = useState(false);
+  const [exportMessage, setExportMessage] = useState("");
+  function handleExportAll() {
+    const json_lists = JSON.stringify({ templists: templistCards }, null, 2);
+    setExportMessage(json_lists);
+    setOpenDialog(true);
+  }
 
   function handleSaveAll() {
     setSavedTemplists(templistCards);
@@ -141,15 +153,29 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
-                <button>
-                  <Download className="h-4 w-4" />
-                  <span>Export All Templists</span>
-                </button>
+                <div>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleExportAll();
+                    }}
+                    className="flex items-center space-x-2"
+                  >
+                    <Download className="h-4 w-4" />
+                    <span>Export All Templists</span>
+                  </button>
+
+                  <ExportDialog
+                    open={openDialog}
+                    onOpenChange={setOpenDialog}
+                    message={exportMessage}
+                  />
+                </div>
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
-                <button>
+                <button onClick={handleExportSaved}>
                   <Download className="h-4 w-4" />
                   <span>Export Saved Templists</span>
                 </button>
