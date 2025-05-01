@@ -35,7 +35,7 @@ function SidebarTriggerWithToolTip() {
 export default function SidebarToolbar({
   className,
 }: React.HTMLAttributes<HTMLDivElement>) {
-  const { templistCards, changeLayout } = useTemplistContext();
+  const { templistCards, changeLayout, layout } = useTemplistContext();
 
   function handleClick(layout: LayoutType) {
     changeLayout(layout);
@@ -53,6 +53,7 @@ export default function SidebarToolbar({
             value="list"
             aria-label="List Layout"
             onClick={() => handleClick("list")}
+            data-state={layout === "list" ? "on" : "off"}
           >
             <Rows2 className="h-4 w-4" />
           </ToggleGroupItem>
@@ -60,6 +61,7 @@ export default function SidebarToolbar({
             value="grid"
             aria-label="Grid Layout"
             onClick={() => handleClick("grid")}
+            data-state={layout === "grid" ? "on" : "off"}
           >
             <Grid2x2 className="h-4 w-4" />
           </ToggleGroupItem>
@@ -68,6 +70,7 @@ export default function SidebarToolbar({
               value="masonry"
               aria-label="Masonry Layout"
               onClick={() => handleClick("masonry")}
+              data-state={layout === "masonry" ? "on" : "off"}
             >
               <LayoutPanelLeft className="h-4 w-4" />
             </ToggleGroupItem>

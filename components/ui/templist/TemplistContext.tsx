@@ -48,9 +48,15 @@ export const TemplistProvider: React.FC<TemplistProviderProps> = ({
   React.useEffect(() => {
     const storedLayout = localStorage.getItem("templistLayout");
     if (storedLayout) {
+      if (storedLayout === "masonry") {
+        if (value.savedTemplists.length <= 3) {
+          setLayout("grid");
+          return;
+        }
+      }
       setLayout(storedLayout as LayoutType);
     }
-  }, []);
+  }, [value.savedTemplists.length]);
 
   // Function to switch layouts.
   const changeLayout = (newLayout: LayoutType) => {
