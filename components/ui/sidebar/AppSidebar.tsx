@@ -20,6 +20,8 @@ import {
 import { toast } from "sonner";
 import Link from "next/link";
 import {
+  Info,
+  ListTodo,
   X,
   Download,
   Save,
@@ -32,6 +34,11 @@ import {
 import Image from "next/image";
 
 import { ExportDialog } from "@/components/ui/sidebar/ExportModal";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { setOpen } = useSidebar();
@@ -101,6 +108,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   const titleCount: Record<string, number> = {};
 
+  const iconClasses = "mr-2 h-4 w-4";
+
   return (
     <Sidebar
       collapsible={"offcanvas"}
@@ -124,8 +133,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 <SidebarMenuItem>
                   <SidebarMenuButton asChild>
                     <button onClick={() => changeLayout("list")}>
-                      <Rows2 className="h-4 w-4" />
-                      <span>Switch to list layout</span>
+                      <Rows2 className={iconClasses} />
+                      Switch to list layout
                     </button>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -134,8 +143,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 <SidebarMenuItem className="hidden md:block">
                   <SidebarMenuButton asChild>
                     <button onClick={() => changeLayout("grid")}>
-                      <Grid2x2 className="h-4 w-4" />
-                      <span>Switch to grid layout</span>
+                      <Grid2x2 className={iconClasses} />
+                      Switch to grid layout
                     </button>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -144,8 +153,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 <SidebarMenuItem className="hidden lg:block">
                   <SidebarMenuButton asChild>
                     <button onClick={() => changeLayout("masonry")}>
-                      <LayoutPanelLeft className="h-4 w-4" />
-                      <span>Switch to masonry layout</span>
+                      <LayoutPanelLeft className={iconClasses} />
+                      Switch to masonry layout
                     </button>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -166,8 +175,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     }}
                     className="flex items-center space-x-2"
                   >
-                    <Download className="h-4 w-4" />
-                    <span>Export All Templists</span>
+                    <Download className={iconClasses} />
+                    Export All Templists
                   </button>
 
                   <ExportDialog
@@ -186,10 +195,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                       e.stopPropagation();
                       handleExportSaved();
                     }}
-                    className="flex items-center space-x-2"
+                    className="flex items-center"
                   >
-                    <Download className="h-4 w-4" />
-                    <span>Export Saved Templists</span>
+                    <Download className={iconClasses} />
+                    Export Saved Templists
                   </button>
 
                   <ExportDialog
@@ -203,8 +212,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
                 <button onClick={handleSaveAll}>
-                  <Save className="h-4 w-4" />
-                  <span>Save All Templists</span>
+                  <Save className={iconClasses} />
+                  Save All Templists
                 </button>
               </SidebarMenuButton>
             </SidebarMenuItem>
@@ -214,16 +223,32 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   handleOnClick={deleteAll}
                   message="This action cannot be undone. This will permanently delete all templists."
                 >
-                  <Trash className="h-4 w-4" />
+                  <Trash className={iconClasses} />
                   Delete All Templists
+                  <Popover>
+                    <PopoverTrigger asChild className="relative ml-2">
+                      <span
+                        onClick={(e) => e.stopPropagation()}
+                        role="button"
+                        tabIndex={0}
+                        className="cursor-pointer"
+                      >
+                        <Info className={iconClasses} />
+                      </span>
+                    </PopoverTrigger>
+                    <PopoverContent className="text-sm">
+                      Permanently deletes all the templists (both saved and
+                      unsaved)
+                    </PopoverContent>
+                  </Popover>
                 </AlertWithDialog>
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
                 <button onClick={handleUnsaveAll}>
-                  <SaveOff className="h-4 w-4" />
-                  <span>Unsave All Saved Templists</span>
+                  <SaveOff className={iconClasses} />
+                  Unsave All Saved Templists
                 </button>
               </SidebarMenuButton>
             </SidebarMenuItem>
@@ -233,8 +258,23 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   handleOnClick={deleteAllSaved}
                   message="This action cannot be undone. This will permanently delete all saved templists."
                 >
-                  <Trash className="h-4 w-4" />
+                  <Trash className={iconClasses} />
                   Delete All Saved Templists
+                  <Popover>
+                    <PopoverTrigger asChild className="relative ml-2">
+                      <span
+                        onClick={(e) => e.stopPropagation()}
+                        role="button"
+                        tabIndex={0}
+                        className="cursor-pointer"
+                      >
+                        <Info className={iconClasses} />
+                      </span>
+                    </PopoverTrigger>
+                    <PopoverContent className="text-sm">
+                      Permanently deletes all the saved templists
+                    </PopoverContent>
+                  </Popover>
                 </AlertWithDialog>
               </SidebarMenuButton>
             </SidebarMenuItem>
@@ -270,6 +310,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                         href={`#${item.ulid}`}
                         onClick={handleClickTemplist}
                       >
+                        <ListTodo className={iconClasses} />
                         <span>{displayTitle}</span>
                       </Link>
                     </SidebarMenuButton>
