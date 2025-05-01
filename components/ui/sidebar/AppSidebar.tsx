@@ -325,7 +325,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <div>By Jukelyn</div>
         <div className="-mb-1">&darr;</div>
         <Link
-          href={"https://github.com/Jukelyn"}
+          href={"https://github.com/Jukelyn/templists"}
           target="_blank"
           rel="noopener noreferrer"
           className="flex justify-center"
