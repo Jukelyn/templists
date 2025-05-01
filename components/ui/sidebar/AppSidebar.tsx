@@ -52,10 +52,15 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     layout,
   } = useTemplistContext();
 
-  function handleExportSaved() {}
-
   const [openDialog, setOpenDialog] = useState(false);
   const [exportMessage, setExportMessage] = useState("");
+
+  function handleExportSaved() {
+    const json_lists = JSON.stringify({ templists: savedTemplists }, null, 2);
+    setExportMessage(json_lists);
+    setOpenDialog(true);
+  }
+
   function handleExportAll() {
     const json_lists = JSON.stringify({ templists: templistCards }, null, 2);
     setExportMessage(json_lists);
@@ -175,10 +180,24 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             </SidebarMenuItem>
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
-                <button onClick={handleExportSaved}>
-                  <Download className="h-4 w-4" />
-                  <span>Export Saved Templists</span>
-                </button>
+                <div>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleExportSaved();
+                    }}
+                    className="flex items-center space-x-2"
+                  >
+                    <Download className="h-4 w-4" />
+                    <span>Export Saved Templists</span>
+                  </button>
+
+                  <ExportDialog
+                    open={openDialog}
+                    onOpenChange={setOpenDialog}
+                    message={exportMessage}
+                  />
+                </div>
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
