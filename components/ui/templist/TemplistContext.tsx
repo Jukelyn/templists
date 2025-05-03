@@ -5,7 +5,6 @@ import { Templist, TemplistItem } from "@/types/templist";
 import { ActionTypes } from "@/types/actions";
 import { toast } from "sonner";
 
-// Extend the context type to include layout and toggleLayout.
 export type LayoutType = "list" | "grid" | "masonry";
 
 interface TemplistContextType {
@@ -36,27 +35,42 @@ export const useTemplistContext = () => {
 interface TemplistProviderProps {
   children: ReactNode;
   value: Omit<TemplistContextType, "layout" | "changeLayout">;
+  isLoading?: boolean;
 }
 
 export const TemplistProvider: React.FC<TemplistProviderProps> = ({
   children,
   value,
+  isLoading,
 }) => {
   // Initialize layout state locally.
   const [layout, setLayout] = React.useState<LayoutType>("list");
 
   React.useEffect(() => {
+    // Only run if data is not loading and we have at least one card.
+    if (isLoading || value.templistCards.length === 0) return;
+
     const storedLayout = localStorage.getItem("templistLayout");
+    const totalCards = value.templistCards.length;
+
     if (storedLayout) {
       if (storedLayout === "masonry") {
-        if (value.savedTemplists.length <= 3) {
+        if (totalCards >= 4) {
+          // Enough cards: persist masonry layout.
+          setLayout("masonry");
+        } else {
+          console.log(
+            `Not enough cards for masonry (${totalCards}). Fallback to grid.`,
+          );
           setLayout("grid");
-          return;
+          localStorage.setItem("templistLayout", "grid");
         }
+      } else {
+        // For any other stored layout (grid or list), simply set it.
+        setLayout(storedLayout as LayoutType);
       }
-      setLayout(storedLayout as LayoutType);
     }
-  }, [value.savedTemplists.length]);
+  }, [value.templistCards.length, isLoading]);
 
   // Function to switch layouts.
   const changeLayout = (newLayout: LayoutType) => {
@@ -91,7 +105,7 @@ export const TemplistProvider: React.FC<TemplistProviderProps> = ({
         }
       }
 
-      // Update both the working state and the saved state
+      // Update both the working state and the saved state.
       value.dispatch({
         type: "SET_INITIAL_STATE",
         templists: persistedTemplists,
