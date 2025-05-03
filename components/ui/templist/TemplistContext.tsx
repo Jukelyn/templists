@@ -5,6 +5,7 @@ import { Templist, TemplistItem } from "@/types/templist";
 import { ActionTypes } from "@/types/actions";
 import { toast } from "sonner";
 
+// Extend the context type to include layout and toggleLayout.
 export type LayoutType = "list" | "grid" | "masonry";
 
 interface TemplistContextType {
@@ -18,6 +19,7 @@ interface TemplistContextType {
   handleTitleChange: (ulid: string, newTitle: string) => void;
   layout: LayoutType;
   changeLayout: (newLayout: LayoutType) => void;
+  isLoading: boolean; // Expose loading state
 }
 
 const TemplistContext = createContext<TemplistContextType | null>(null);
@@ -34,22 +36,20 @@ export const useTemplistContext = () => {
 
 interface TemplistProviderProps {
   children: ReactNode;
-  value: Omit<TemplistContextType, "layout" | "changeLayout">;
-  isLoading?: boolean;
+  value: Omit<TemplistContextType, "layout" | "changeLayout" | "isLoading">;
 }
 
+// Updated Provider with isLoading state
 export const TemplistProvider: React.FC<TemplistProviderProps> = ({
   children,
   value,
-  isLoading,
 }) => {
   // Initialize layout state locally.
   const [layout, setLayout] = React.useState<LayoutType>("list");
+  const [isLoading, setIsLoading] = React.useState<boolean>(true);
 
   React.useEffect(() => {
-    // Only run if data is not loading and we have at least one card.
-    if (isLoading || value.templistCards.length === 0) return;
-
+    // Guard if the data hasn't been loaded yet.
     const storedLayout = localStorage.getItem("templistLayout");
     const totalCards = value.templistCards.length;
 
@@ -70,7 +70,21 @@ export const TemplistProvider: React.FC<TemplistProviderProps> = ({
         setLayout(storedLayout as LayoutType);
       }
     }
-  }, [value.templistCards.length, isLoading]);
+
+    setIsLoading(false);
+  }, [value.templistCards.length, value.templistCards]);
+
+  // If templists change later (e.g. via deletion)
+  React.useEffect(() => {
+    if (!isLoading && layout === "masonry" && value.savedTemplists.length < 4) {
+      console.log(
+        `Less than 4 templists (${value.savedTemplists.length}) detected in masonry layout. Switching to grid layout.`,
+      );
+      setLayout("grid");
+      localStorage.setItem("templistLayout", "grid");
+      toast.success("Layout changed to grid due to fewer templists.");
+    }
+  }, [isLoading, layout, value.savedTemplists.length]);
 
   // Function to switch layouts.
   const changeLayout = (newLayout: LayoutType) => {
@@ -86,6 +100,7 @@ export const TemplistProvider: React.FC<TemplistProviderProps> = ({
     ...value,
     layout,
     changeLayout,
+    isLoading,
   };
 
   React.useEffect(() => {

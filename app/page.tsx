@@ -6,6 +6,7 @@ import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import TemplistSearchWrapper from "@/components/ui/search-bar/SearchWrapper";
 import SidebarToolbar from "@/components/ui/toolbar";
+import Loader from "@/components/ui/loading";
 
 export default function ChecklistApp() {
   const {
@@ -15,7 +16,12 @@ export default function ChecklistApp() {
     handleDelete,
     handleTitleChange,
     layout,
+    isLoading,
   } = useTemplistContext();
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <div className="min-h-screen p-6 md:p-4 lg:p-2 dark:bg-black">
@@ -49,7 +55,7 @@ export default function ChecklistApp() {
         </div>
       )}
       {layout === "masonry" && (
-        <div className="mt-6 w-full max-w-[1848px]">
+        <div className="mx-auto mt-6 w-full max-w-[1848px]">
           {/* Masonry layout (using CSS columns), capped at 4 columns via maxWidth of container */}
           <div
             className="w-full"
