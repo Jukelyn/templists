@@ -1,8 +1,15 @@
 # Templists
 
-Templists are just temporary checklists. I find myself need a checklist but I don't want to deal with keep them and I also don't like the look or bloat that a lot of other solutions offer. Templists are temporary checklists that you can allow to persist but are usually gone upon a refresh. A history of templists are stored, just in case.*
+Templists is a modern take on the classic checklist. It's designed for those moments when you need a quick list -- without the hassle of managing or organizing them long term. Unlike many bloated or overly styled alternatives, Templists keeps things fast, minimal, and intuitive. Create checklists on the fly, use them, and forget them. Or, if you prefer, save them for later.
 
-*Note: To be implemented (may not do so since I added a save option though.
+Key Features:
+
+- Choose from three layouts: a classic list view, a grid view, or a Pinterest-style masonry layout.
+- Clean, minimalist interface.
+- Easily set and edit list titles and items.
+- Delete lists or individual items with ease.
+- Search through your saved lists.
+- Export your lists when needed.
 
 <div align="center">
 
