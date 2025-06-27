@@ -77,7 +77,14 @@ const TemplistItemMap: React.FC<TemplistItemMapProps> = ({
               {item.text}
             </span>
           </div>
-          <div className="flex space-x-1">
+          <div className="flex">
+            <Button
+              size="icon"
+              variant="ghost"
+              onClick={() => copyToClipboard(item.text)}
+            >
+              <Clipboard className="h-4 w-4" />
+            </Button>
             <Button
               size="icon"
               variant="ghost"
