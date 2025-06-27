@@ -1,4 +1,4 @@
-import { Trash2, Pencil, Check, X } from "lucide-react";
+import { Trash2, Pencil, Check, X, Clipboard } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -28,6 +28,21 @@ const TemplistItemMap: React.FC<TemplistItemMapProps> = ({
   deleteItemFromList,
   toggleItemComplete,
 }) => {
+  async function copyToClipboard(text: string): Promise<void> {
+    try {
+      await navigator.clipboard.writeText(text);
+
+      let shownExcerpt = item.text.split(" ").slice(0, 3).join(" ");
+
+      if (shownExcerpt.length < item.text.length) {
+        shownExcerpt = shownExcerpt + "...";
+      }
+
+    } catch (err) {
+      console.error("Failed to copy text from item. ", err);
+    }
+  }
+
   return (
     <div className="flex items-center rounded-md border bg-black p-3 shadow-sm">
       {isEditing(item.itemId) ? (
