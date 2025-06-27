@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 
 import { TemplistItem } from "@/types/templist";
+import { toast } from "sonner";
 
 interface TemplistItemMapProps {
   item: TemplistItem;
@@ -38,6 +39,7 @@ const TemplistItemMap: React.FC<TemplistItemMapProps> = ({
         shownExcerpt = shownExcerpt + "...";
       }
 
+      toast.success(`Item text "${shownExcerpt}" copied to clipboard!`);
     } catch (err) {
       console.error("Failed to copy text from item. ", err);
     }
