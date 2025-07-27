@@ -7,5 +7,6 @@ export interface Templist {
 export interface TemplistItem {
   itemId: string;
   text: string;
+  notes: string;
   completed: boolean;
 }

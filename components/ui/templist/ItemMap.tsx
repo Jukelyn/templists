@@ -1,21 +1,27 @@
-import { Trash2, Pencil, Check, X, Clipboard } from "lucide-react";
+import { useState } from "react";
+import { Trash2, Pencil, Check, X, Clipboard, StickyNote } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { TemplistItemNotesDialog } from "@/components/ui/templist/TemplistItemNotesDialog";
 
 import { TemplistItem } from "@/types/templist";
 import { toast } from "sonner";
 
 interface TemplistItemMapProps {
   item: TemplistItem;
-  isEditing: (id: string) => boolean;
-  editText: string;
-  setEditText: (value: string) => void;
+  isEditing: (id: TemplistItem["itemId"]) => boolean;
+  editText: TemplistItem["text"];
+  setEditText: (value: TemplistItem["text"]) => void;
   saveEdit: () => void;
   cancelEdit: () => void;
   startEditing: (item: TemplistItem) => void;
-  deleteItemFromList: (id: string) => void;
-  toggleItemComplete: (id: string) => void;
+  deleteItemFromList: (id: TemplistItem["itemId"]) => void;
+  toggleItemComplete: (id: TemplistItem["itemId"]) => void;
+  updateItemNotes: (
+    id: TemplistItem["itemId"],
+    notes: TemplistItem["notes"],
+  ) => void;
 }
 
 const TemplistItemMap: React.FC<TemplistItemMapProps> = ({
@@ -28,8 +34,11 @@ const TemplistItemMap: React.FC<TemplistItemMapProps> = ({
   startEditing,
   deleteItemFromList,
   toggleItemComplete,
+  updateItemNotes,
 }) => {
-  async function copyToClipboard(text: string): Promise<void> {
+  const [showNotesDialog, setShowNotesDialog] = useState(false); // State for dialog visibility
+
+  async function copyToClipboard(text: TemplistItem["text"]): Promise<void> {
     try {
       await navigator.clipboard.writeText(text);
 
@@ -45,6 +54,10 @@ const TemplistItemMap: React.FC<TemplistItemMapProps> = ({
     }
   }
 
+  const handleSaveNotes = (notes: TemplistItem["notes"]) => {
+    updateItemNotes(item.itemId, notes);
+  };
+
   return (
     <div className="flex items-center rounded-md border bg-black p-3 shadow-sm">
       {isEditing(item.itemId) ? (
@@ -55,6 +68,7 @@ const TemplistItemMap: React.FC<TemplistItemMapProps> = ({
             onKeyDown={(e) => e.key === "Enter" && saveEdit()}
             className="flex-1"
             autoFocus
+            maxLength={40}
           />
           <Button size="icon" variant="ghost" onClick={saveEdit}>
             <Check className="h-4 w-4" />
@@ -72,7 +86,7 @@ const TemplistItemMap: React.FC<TemplistItemMapProps> = ({
               className="mr-3"
             />
             <span
-              className={`flex-1 ${item.completed ? "text-muted-foreground line-through" : ""}`}
+              className={`flex-1 [overflow-wrap:anywhere] whitespace-normal ${item.completed ? "text-muted-foreground line-through" : ""}`}
             >
               {item.text}
             </span>
@@ -99,9 +113,24 @@ const TemplistItemMap: React.FC<TemplistItemMapProps> = ({
             >
               <Trash2 className="h-4 w-4" />
             </Button>
+            <Button
+              size="icon"
+              variant="ghost"
+              onClick={() => setShowNotesDialog(true)}
+            >
+              <StickyNote className="h-4 w-4" />
+            </Button>
           </div>
         </>
       )}
+
+      <TemplistItemNotesDialog
+        isOpen={showNotesDialog}
+        onClose={() => setShowNotesDialog(false)}
+        initialNotes={item.notes || ""}
+        onSaveNotes={handleSaveNotes}
+        itemText={item.text}
+      />
     </div>
   );
 };

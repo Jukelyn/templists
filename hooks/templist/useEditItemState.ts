@@ -6,8 +6,8 @@ interface UseEditItemStateProps {
 }
 
 interface UseEditItemStateResult {
-  editingId: string | null;
-  editText: string;
+  editingId: TemplistItem["itemId"] | null;
+  editText: TemplistItem["text"];
   setEditText: React.Dispatch<React.SetStateAction<string>>;
   isEditing: (id: string) => boolean;
   startEditing: (item: TemplistItem) => void;
@@ -18,10 +18,10 @@ interface UseEditItemStateResult {
 export function useEditItemState({
   onSaveEdit,
 }: UseEditItemStateProps): UseEditItemStateResult {
-  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editingId, setEditingId] = useState<TemplistItem["text"] | null>(null);
   const [editText, setEditText] = useState("");
 
-  const isEditing = useCallback((id: string) => editingId === id, [editingId]);
+  const isEditing = useCallback((id: TemplistItem["itemId"]) => editingId === id, [editingId]);
 
   const startEditing = useCallback((item: TemplistItem) => {
     setEditingId(item.itemId);

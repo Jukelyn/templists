@@ -5,10 +5,17 @@ import getItemId from "@/lib/utils/templist/getItemId";
 interface UseTemplistResult {
   items: TemplistItem[];
   lastUpdated: Date | null;
-  addItemToList: (text: string) => void; // Accepts text, generates ID internally
-  deleteItemFromList: (id: string) => void;
-  toggleItemComplete: (id: string) => void;
-  updateItemText: (id: string, newText: string) => void;
+  addItemToList: (text: TemplistItem["text"]) => void; // Accepts text, generates ID internally
+  deleteItemFromList: (id: TemplistItem["itemId"]) => void;
+  toggleItemComplete: (id: TemplistItem["itemId"]) => void;
+  updateItemText: (
+    id: TemplistItem["itemId"],
+    newText: TemplistItem["text"],
+  ) => void;
+  updateItemNotes: (
+    id: TemplistItem["itemId"],
+    notes: TemplistItem["notes"],
+  ) => void;
 }
 
 export function useTemplist(
@@ -31,11 +38,12 @@ export function useTemplist(
   }, []);
 
   const addItemToList = useCallback(
-    (text: string) => {
+    (text: TemplistItem["text"]) => {
       const newItem: TemplistItem = {
         itemId: getItemId(ulid, items),
         text: text.trim(),
         completed: false,
+        notes: "",
       };
       setItems((prev) => [...prev, newItem]);
       touchTimestamp();
@@ -64,10 +72,22 @@ export function useTemplist(
   );
 
   const updateItemText = useCallback(
-    (id: string, newText: string) => {
+    (id: TemplistItem["itemId"], newText: TemplistItem["text"]) => {
       setItems((prev) =>
         prev.map((item) =>
           item.itemId === id ? { ...item, text: newText.trim() } : item,
+        ),
+      );
+      touchTimestamp();
+    },
+    [touchTimestamp],
+  );
+
+  const updateItemNotes = useCallback(
+    (id: TemplistItem["itemId"], notes: TemplistItem["notes"]) => {
+      setItems((prev) =>
+        prev.map((item) =>
+          item.itemId === id ? { ...item, notes: notes.trim() } : item,
         ),
       );
       touchTimestamp();
@@ -82,5 +102,6 @@ export function useTemplist(
     deleteItemFromList,
     toggleItemComplete,
     updateItemText,
+    updateItemNotes,
   };
 }

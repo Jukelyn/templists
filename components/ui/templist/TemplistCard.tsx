@@ -47,6 +47,7 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
     deleteItemFromList,
     toggleItemComplete,
     updateItemText,
+    updateItemNotes,
   } = useTemplist(initialItems, ulid || "");
 
   const { newItemText, setNewItemText, submitNewItem } = useAddItem({
@@ -104,6 +105,7 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
                     }
                   }}
                   className="block text-2xl font-bold"
+                  maxLength={24}
                 />
               ) : (
                 <span
@@ -111,8 +113,8 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
                   onClick={() => setIsEditingTitle(true)}
                 >
                   {title || (
-                    <span className="text-muted-foreground block w-full italic">
-                      Click to name
+                    <span className="text-muted-foreground block w-full text-xl italic">
+                      Click to name (max 24 characters)
                     </span>
                   )}
                 </span>
@@ -133,11 +135,13 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
       <CardContent>
         <div className="mb-6 flex space-x-2">
           <Input
-            placeholder="Add new item..."
+            name={`task input for ${ulid}`}
+            placeholder="Add new item... (max 40 characters)"
             value={newItemText}
             onChange={(e) => setNewItemText(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && submitNewItem()}
             className="flex-1"
+            maxLength={40}
           />
           <Button onClick={submitNewItem}>
             <Plus className="mr-1 h-4 w-4" />
@@ -163,6 +167,7 @@ export const TemplistCard: React.FC<TemplistCardProps> = ({
                 startEditing={startEditing}
                 deleteItemFromList={deleteItemFromList}
                 toggleItemComplete={toggleItemComplete}
+                updateItemNotes={updateItemNotes}
               />
             ))
           )}

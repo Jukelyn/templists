@@ -1,11 +1,11 @@
 import { useState, useCallback } from "react";
-
+import { TemplistItem } from "@/types/templist";
 interface useAddItemProps {
-  onAddItem: (text: string) => void; // Callback to actually add the item
+  onAddItem: (text: TemplistItem["text"]) => void; // Callback to actually add the item
 }
 
 interface useAddItemResult {
-  newItemText: string;
+  newItemText: TemplistItem["text"];
   setNewItemText: React.Dispatch<React.SetStateAction<string>>;
   submitNewItem: () => void;
 }
