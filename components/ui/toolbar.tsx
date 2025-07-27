@@ -42,7 +42,7 @@ export default function SidebarToolbar({
   }
 
   return (
-    <div className={cn("mt-4 flex items-center justify-end", className)}>
+    <div className={cn("flex items-center justify-end", className)}>
       <div className="hidden md:block">
         <ToggleGroup
           type="single"

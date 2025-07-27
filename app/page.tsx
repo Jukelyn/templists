@@ -25,16 +25,25 @@ export default function ChecklistApp() {
 
   return (
     <div className="min-h-screen p-6 md:p-4 lg:p-2 dark:bg-black">
-      <div className="flex w-full justify-end">
-        <SidebarToolbar className="pr-10" />
-      </div>
-      {templistCards.length > 0 && (
-        <div className="flex flex-col items-center pt-6">
-          <TemplistSearchWrapper templists={templistCards} />
+      <div className="relative flex h-16 w-full items-center px-4">
+        {templistCards.length > 0 && (
+          <div className="absolute left-1/2 w-full max-w-sm -translate-x-1/2 transform">
+            <TemplistSearchWrapper templists={templistCards} />
+          </div>
+        )}
+
+        <div className="ml-auto pr-4">
+          <SidebarToolbar />
         </div>
-      )}
+      </div>
+      <div className="flex w-full justify-center gap-4 pt-4">
+        <Button onClick={handleAddTemplist}>
+          <Plus className="mr-1 h-4 w-4" />
+          Add New Templist
+        </Button>
+      </div>
       {layout === "grid" && (
-        <div className="mt-6 flex justify-center">
+        <div className="mt-4 flex justify-center">
           <div className="w-full max-w-[1848px]">
             <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(250px,450px))] items-start justify-center gap-4">
               {templistCards.map((card) => (
@@ -102,12 +111,6 @@ export default function ChecklistApp() {
           </div>
         </div>
       )}
-      <div className="flex w-full justify-center gap-4 pt-4">
-        <Button onClick={handleAddTemplist}>
-          <Plus className="mr-1 h-4 w-4" />
-          Add New Templist
-        </Button>
-      </div>
     </div>
   );
 }
