@@ -36,14 +36,14 @@ export default function ChecklistApp() {
           <SidebarToolbar />
         </div>
       </div>
-      <div className="flex w-full justify-center gap-4 pt-4">
+      <div className="flex w-full justify-center pt-2 pb-5">
         <Button onClick={handleAddTemplist}>
-          <Plus className="mr-1 h-4 w-4" />
+          <Plus className="h-4 w-4" />
           Add New Templist
         </Button>
       </div>
       {layout === "grid" && (
-        <div className="mt-4 flex justify-center">
+        <div className="flex justify-center">
           <div className="w-full max-w-[1848px]">
             <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(250px,450px))] items-start justify-center gap-4">
               {templistCards.map((card) => (
@@ -64,7 +64,7 @@ export default function ChecklistApp() {
         </div>
       )}
       {layout === "masonry" && (
-        <div className="mx-auto mt-6 w-full max-w-[1848px]">
+        <div className="mx-auto w-full max-w-[1848px]">
           {/* Masonry layout (using CSS columns), capped at 4 columns via maxWidth of container */}
           <div
             className="w-full"
@@ -92,7 +92,7 @@ export default function ChecklistApp() {
         </div>
       )}
       {layout === "list" && (
-        <div className="mt-6 flex justify-center">
+        <div className="flex justify-center">
           {/* Regular list layout */}
           <div className="flex w-full max-w-5xl flex-col items-center space-y-4">
             {templistCards.map((card) => (
