@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { TemplistItem } from "@/types/templist";
+import { Templist, TemplistItem } from "@/types/templist";
 import getItemId from "@/lib/utils/templist/getItemId";
 
 interface UseTemplistResult {
@@ -19,7 +19,7 @@ interface UseTemplistResult {
 }
 
 export function useTemplist(
-  initialItems: TemplistItem[],
+  initialItems: Templist["items"],
   ulid: string,
 ): UseTemplistResult {
   const [items, setItems] = useState<TemplistItem[]>(initialItems);

@@ -21,13 +21,13 @@ import { useAddItem } from "@/hooks/templist/useAddItem";
 import { useEditItemState } from "@/hooks/templist/useEditItemState";
 import formatTimestamp from "@/lib/utils/dateUtils";
 
-import { TemplistItem } from "@/types/templist";
+import { Templist } from "@/types/templist";
 
 interface TemplistCardProps {
-  ulid: string;
-  title: string;
-  items: TemplistItem[];
-  onSave: (updatedItems: TemplistItem[]) => void;
+  ulid: Templist["ulid"];
+  title: Templist["title"];
+  items: Templist["items"];
+  onSave: (updatedItems: Templist["items"]) => void;
   onDelete: () => void;
   onTitleChange: (newTitle: string) => void;
 }
